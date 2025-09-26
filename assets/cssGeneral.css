@@ -1,0 +1,121 @@
+html {
+font:normal 100%/1.2em "Baskerville";
+}
+body{
+	padding : 0% 5%;
+}
+#container{
+	width:90%;
+	margin:auto;
+}
+#accueil{
+	display:flex;
+	justify-content:space-around;
+	padding-top:5%;
+}
+#textAccueil{
+	font-family: 'Libre Baskerville', serif;
+	width:60%;
+	margin: 10px 0;
+	color: #999999 ;
+	text-align: justify;
+}
+#textAccueil h1{
+	color:#6699FF;
+}
+#textAccueil p{
+	line-height: 1.5em;
+}
+header{
+	margin-bottom: 10px;
+}
+#categories{
+float:left;
+}
+
+#produits{
+padding:0 150px;
+display:flex;
+flex-flow: row wrap;
+}
+#categories li {
+	list-style-type: none;
+	list-style-image:none;
+	margin-right: 1px ;
+    border:1px solid white;
+    width:100px;
+    text-align:center;
+	background: #8b8beb;
+	font-weight: bold; 
+}
+#produits a {
+	list-style-type: none;
+	list-style-image:none;
+	display:inline; 
+    width:175px;
+    text-align:center;
+    height:205px;
+    font: 1em "Trebuchet MS",Arial,sans-serif ;
+}
+#card{
+    width:180px;
+    height : 250px;
+    padding:10px;
+    margin : 10px;
+    background-color : var(--fondC);
+    box-shadow: 1px 1px 4px #bbb;
+    text-align:center;
+	display : flex;
+	flex-direction: column;
+	justify-content:space-between;
+}
+.descrCard{
+    top:0px;
+	font: .8em "Trebuchet MS",Arial,sans-serif ;
+}
+.prixCard{
+    font: .8em "Trebuchet MS",Arial,sans-serif ;    
+}
+.imgCard{
+    margin-top: 10px;
+	max-width : 200px;
+    max-height: 140px;
+}
+
+div.photoCard>img{
+    max-width : 200px;
+    max-height: 140px;
+    
+}
+.contenuCentre{
+	display:flex;
+	justify-content: center;
+	padding-top:20px;	
+}
+.contenuCentre a{
+ margin :0px 5px;
+}
+#formC{
+	width:60%;
+}
+.btnCentre{
+	display:flex;
+	justify-content: center;
+}
+#message, #erreurs{
+	margin : 2px;
+}
+#panier{
+	font-size: large;
+	margin : 2px;
+}
+button{
+	margin: 3px 0px;
+}
+#creationCommande
+{
+margin-top:25px;
+}
+#erreurs{
+	margin-right: 20px;
+}
