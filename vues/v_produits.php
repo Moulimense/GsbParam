@@ -1,3 +1,8 @@
+<?php
+if (isset($titre)) 
+	echo "<h2>" . $titre . "</h2>";
+else 
+	echo "<h2>Nos produits</h2>";?>
 <div id="produits">
 <?php
 // parcours du tableau contenant les produits à afficher

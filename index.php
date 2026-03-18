@@ -19,3 +19,5 @@ include("vues/v_bandeau.html") ;
 $routeur=new Routeur();
 $routeur->routerRequete();
 include("vues/v_pied.html") ;
+
+

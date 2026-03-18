@@ -11,6 +11,7 @@ class Routeur{
     private $ctrlVoirProduits;
     private $ctrlAccueil;
     private $ctrlGererPanier;
+    private $ctrlAdmin;
     
     public function __construct(){
         
@@ -39,6 +40,7 @@ class Routeur{
                 case null :
                 case 'voirCategories' : {$this->ctrlVoirProduits->voirCategories();break;}
                 case 'voirProduits' : {$this->ctrlVoirProduits->voirProduits($_REQUEST['categorie']);break;}
+                case 'nosProduits' : {$this->ctrlVoirProduits->voirProduits();break;}
             }; break;
         case 'gererPanier' :
             switch ($action)
@@ -46,13 +48,25 @@ class Routeur{
                 case null :
                 case 'voirPanier' : {$this->ctrlGererPanier->voirPanier();break;}
                 case 'ajouterAuPanier' : {$this->ctrlGererPanier->ajouterAuPanier($_REQUEST['produit']);break;}
+                case 'modifier' : {$this->ctrlGererPanier->modifierQuantite($_REQUEST['produit'], $_REQUEST['qte']);break;}
+                case 'retirerDuPanier' : {$this->ctrlGererPanier->retirerDuPanier($_REQUEST['produit']);break;}
                 case 'viderPanier' : {$this->ctrlGererPanier->viderPanier();break;}
                 case 'passerCommande' : $this->ctrlGererPanier->passerCommande();break;
                 case 'confirmerCommande' : $this->ctrlGererPanier->confirmerCommande();break;
-                default: {$this->ctrlGererPanier->voirPanier();break;}
+                default: {$this->ctrlGererPanier->voirPanier();break;}             
             }; break;
-        case 'administrer' :  // TODO Créer un contrôleur spécial pour l'administration du site
-		break; 
+             
+        case 'administrer' :
+            require_once 'controleurs/ControleurAdmin.php';
+            $this->ctrlAdmin = new ControleurAdmin();
+            switch ($action) {
+                case 'connexion' : $this->ctrlAdmin->login(); break;
+                case 'validerConnexion' : $this->ctrlAdmin->validerConnexion(); break;
+                case 'listeProduits' : $this->ctrlAdmin->gestionProduits(); break;
+                // Ajouter ici les cases pour ajouter, modifier, supprimer
+                default : $this->ctrlAdmin->login();
+            }
+            break; 
     }
     }
 }

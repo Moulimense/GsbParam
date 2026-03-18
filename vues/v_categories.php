@@ -1,7 +1,7 @@
 <ul id="categories">
 
 <?php
-foreach( $lesCategories as $uneCategorie) 
+foreach ((array)$lesCategories as $uneCategorie)
 {
 	$idCategorie = $uneCategorie->id;
 	$libCategorie = $uneCategorie->libelle;
