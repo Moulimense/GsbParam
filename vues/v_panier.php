@@ -20,8 +20,10 @@ foreach( $lesProduitsDuPanier as $unProduit)
        onchange="window.location.href='index.php?uc=gererPanier&action=modifier&produit=<?= $id ?>&qte='+this.value" style="width: 60px;">
 	</div>
 	</div>
-	<div class="imgCard"><a href="index.php?uc=gererPanier&produit=<?= $id ?>&action=supprimerUnProduit" onclick="return confirm('Voulez-vous vraiment retirer cet article ?');">
-	<img src="assets/images/retirerpanier.png" title="Retirer du panier" alt="retirer du panier"></a></div>
+	<div class="imgCard"><a href="index.php?uc=gererPanier&action=retirerDuPanier&produit=<?php echo $id ?>" 
+   onclick="return confirm('Voulez-vous vraiment retirer cet article ?');">
+   <img src="assets/images/retirerpanier.png" title="Retirer du panier" alt="Panier">
+</a></div>
 	</div>
 	<?php
 }

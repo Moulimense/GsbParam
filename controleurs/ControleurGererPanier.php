@@ -71,14 +71,12 @@ class ControleurGererPanier
 	 *
 	 * @param string $idProduit
 	 */
-	function retirerDuPanier($idProduit)
-	{
-		$index = array_search($idProduit, $_SESSION['produits']);
-		if ($index !== false) {
-			unset($_SESSION['produits'][$index]);
-			// Re-indexer le tableau pour éviter les trous
-			$_SESSION['produits'] = array_values($_SESSION['produits']);
+	public function retirerDuPanier($idProduit) {
+		if (isset($_SESSION['produits'][$idProduit])) {
+			// On supprime la clé du tableau associatif
+			unset($_SESSION['produits'][$idProduit]);
 		}
+		// On réaffiche le panier mis à jour
 		$this->voirPanier();
 	}
 
