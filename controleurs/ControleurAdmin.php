@@ -42,6 +42,32 @@ class ControleurAdmin {
         }
     }
 
+    public function supprimer() {
+        if(isset($_SESSION['admin'])) {
+            $id = $_REQUEST['produit'];
+            $this->modele->supprimerProduit($id);
+            // Redirection vers la liste pour voir le changement
+            $this->listeProduits(); 
+        } else {
+            $this->connexion();
+        }
+    }
+
+    public function validerCreation() {
+        if(isset($_SESSION['admin'])) {
+            $id = $_REQUEST['id'];
+            $desc = $_REQUEST['description'];
+            $prix = $_REQUEST['prix'];
+            $cat = $_REQUEST['idCategorie'];
+            $img = "images/defaut.jpg"; // On peut simplifier l'image pour débuter
+            
+            $this->modele->creerProduit($id, $desc, $prix, $img, $cat);
+            $this->listeProduits();
+        } else {
+            $this->connexion();
+        }
+    }
+
     public function deconnexion() {
         session_destroy();
         header("Location: index.php");

@@ -33,7 +33,9 @@ class Routeur{
     switch($uc)
     {
         case 'accueil':
-            $this->ctrlAccueil->accueil();break;
+            include("vues/v_choixRole.php");
+            break;
+        case 'visiteur':
         case 'voirProduits' :
             switch ($action)
             {

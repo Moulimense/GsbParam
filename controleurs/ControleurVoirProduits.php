@@ -30,9 +30,9 @@ class ControleurVoirProduits
     {
         $lesCategories = $this->modeleFront->getLesCategories();
 
-        if ($categ == null) {
+        if ($categ == null || $categ == 'tous') {
             // Évolution 2 : Tous les produits
-            $lesProduits = $this->modeleFront->getLesProduitsDeCategorie();
+            $lesProduits = $this->modeleFront->getTousLesProduits();
             $titre = "Tous nos produits";
         } else {
             // Évolution 1 : Titre dynamique par catégorie

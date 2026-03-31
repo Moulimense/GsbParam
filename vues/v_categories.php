@@ -1,5 +1,8 @@
 <ul id="categories">
-
+	<li>
+		<a class="text-decoration-none text-light" href="index.php?uc=visiteur&action=voirProduits&categorie=tous">
+		Toute la boutique</a>
+	</li>
 <?php
 foreach ((array)$lesCategories as $uneCategorie)
 {

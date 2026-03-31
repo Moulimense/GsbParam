@@ -158,5 +158,39 @@ class ModeleFront extends Modele
         $res = $this->executerRequete($req, array($mail, $mdp));
         return $res->fetch(PDO::FETCH_OBJ);
     }
+
+    /**
+     * Créer un produit
+     */
+    public function creerProduit($id, $description, $prix, $image, $idCategorie) {
+        $req = "INSERT INTO produit (id, description, prix, image, idCategorie) VALUES (?, ?, ?, ?, ?)";
+        $this->executerRequete($req, array($id, $description, $prix, $image, $idCategorie));
+    }
+
+    /**
+     * Modifier un produit
+     */
+    public function modifierProduit($id, $description, $prix, $idCategorie) {
+        $req = "UPDATE produit SET description = ?, prix = ?, idCategorie = ? WHERE id = ?";
+        $this->executerRequete($req, array($description, $prix, $idCategorie, $id));
+    }
+
+    /**
+     * Supprimer un produit
+     */
+    public function supprimerProduit($id) {
+        $req = "DELETE FROM produit WHERE id = ?";
+        $this->executerRequete($req, array($id));
+    }
+
+    /**
+     * Retourne tous les produits de la base
+     */
+    public function getTousLesProduits() {
+        $req = "SELECT id, description, prix, image, idCategorie FROM produit";
+        $res = $this->executerRequete($req);
+        $lesLignes = $res->fetchAll(PDO::FETCH_OBJ);
+        return $lesLignes;
+    }
 }
 ?>

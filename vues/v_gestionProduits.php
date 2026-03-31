@@ -2,8 +2,8 @@
     <h2>Gestion du catalogue produits</h2>
     
     <div class="mb-3 text-end">
-        <a href="index.php?uc=administrer&action=formAjouterProduit" class="btn btn-success">
-            <i class="bi bi-plus-circle"></i> Ajouter un produit
+        <a href="index.php?uc=administrer&action=ajouter" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Ajouter un nouveau produit
         </a>
     </div>
 
@@ -25,13 +25,13 @@
                 <td><?= number_format($unProduit->prix, 2) ?> €</td>
                 <td><?= $unProduit->idCategorie ?></td>
                 <td class="text-center">
-                    <a href="index.php?uc=administrer&action=formModifierProduit&id=<?= $unProduit->id ?>" class="btn btn-sm btn-warning" title="Modifier">
-                        <i class="bi bi-pencil"></i> Modifier
+                    <a href="index.php?uc=administrer&action=modifier&produit=<?= $unProduit->id ?>" class="btn btn-sm btn-warning" title="Modifier">
+                        <i class="bi bi-pencil"></i> Modifier 📝
                     </a>
-                    <a href="index.php?uc=administrer&action=supprimerProduit&id=<?= $unProduit->id ?>" 
+                    <a href="index.php?uc=administrer&action=supprimer&produit=<?= $unProduit->id ?>" 
                        class="btn btn-sm btn-danger" 
-                       onclick="return confirm('Voulez-vous vraiment supprimer ce produit ?')" title="Supprimer">
-                        <i class="bi bi-trash"></i> Supprimer
+                       onclick="return confirm('Supprimer ce produit ?');" title="Supprimer">
+                        <i class="bi bi-trash"></i> Supprimer 🗑️
                     </a>
                 </td>
             </tr>
