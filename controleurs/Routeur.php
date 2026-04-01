@@ -26,14 +26,17 @@ class Routeur{
     // traitement des paramètres de l'url
     if(isset($_REQUEST['uc']))
     	$uc = $_REQUEST['uc'];
-        else $uc='accueil';
+    else $uc='voirProduits';
+    
     if(isset($_REQUEST['action']))
     	$action = $_REQUEST['action'];
-    else $action=null;
+    else $action='nosProduits';
+
     switch($uc)
     {
         case 'accueil':
-            include("vues/v_choixRole.php");
+            // Redirects to default page
+            $this->ctrlVoirProduits->voirProduits();
             break;
         case 'visiteur':
         case 'voirProduits' :
