@@ -17,7 +17,8 @@ class ControleurVoirProduits
 
     public function __construct()
     {
-        $this->modeleFront = new ModeleFront();
+        $this->modeleFront = new
+            ModeleFront();
     }
 
     /**
@@ -78,6 +79,23 @@ class ControleurVoirProduits
                 echo "Inscription réussie !";
                 // Tu peux inclure la vue de connexion ici
             }
+        }
+    }
+
+    /**
+     * Affiche les détails d'un produit et les produits recommandés
+     */
+    public function voirDetailsProduit($idProduit)
+    {
+        $lesCategories = $this->modeleFront->getLesCategories();
+        $unProduit = $this->modeleFront->getInfosProduit($idProduit);
+
+        if ($unProduit) {
+            $produitsAssocies = $this->modeleFront->getProduitsAssocies($unProduit->idCategorie, $idProduit, 4);
+            include("vues/v_choixCategorie.php");
+            include("vues/v_detailsProduit.php");
+        } else {
+            $this->voirProduits();
         }
     }
 }

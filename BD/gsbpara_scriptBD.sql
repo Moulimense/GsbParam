@@ -127,6 +127,10 @@ CREATE TABLE IF NOT EXISTS produit (
   `prix` decimal(10,2) ,
   `image` char(100) ,
   `idCategorie` char(3) ,
+  `noteClient` float DEFAULT 4.0,
+  `marque` varchar(50) DEFAULT 'Generique',
+  `contenance` varchar(50) DEFAULT '100 ml',
+  `stock` int(11) DEFAULT 10,
   PRIMARY KEY (`id`),
   KEY `I_FK_Produit_CATEGORIE` (`idCategorie`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4 ;

@@ -3,8 +3,14 @@ require_once 'controleurs/ControleurVoirProduits.php';
 require_once 'controleurs/ControleurAccueil.php';
 require_once 'controleurs/ControleurGererPanier.php';
 
+
+/**
+ * @class Routeur
+ * @brief gère les routes (actions à exécuter en fonction des urls)
+ */
 class Routeur
 {
+
     private $ctrlVoirProduits;
     private $ctrlAccueil;
     private $ctrlGererPanier;
@@ -110,3 +116,4 @@ class Routeur
         }
     }
 }
+
