@@ -53,5 +53,22 @@ class ControleurVoirProduits
         $lesCategories = $this->modeleFront->getLesCategories();
         include("vues/v_choixCategorie.php");
     }
+
+    /**
+     * Affiche les détails d'un produit et les produits recommandés
+     */
+    public function voirDetailsProduit($idProduit)
+    {
+        $lesCategories = $this->modeleFront->getLesCategories();
+        $unProduit = $this->modeleFront->getInfosProduit($idProduit);
+
+        if ($unProduit) {
+            $produitsAssocies = $this->modeleFront->getProduitsAssocies($unProduit->idCategorie, $idProduit, 4);
+            include("vues/v_choixCategorie.php");
+            include("vues/v_detailsProduit.php");
+        } else {
+            $this->voirProduits();
+        }
+    }
 }
 ?>

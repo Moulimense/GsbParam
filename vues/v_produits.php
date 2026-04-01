@@ -20,8 +20,11 @@ foreach( $lesProduits as $unProduit)
 			<div class="descrCard"><?= $description ?></div>
 			<div class="prixCard"><?= $prix."€" ?></div>
 			</div>
-			<div class="imgCard"><a href="index.php?uc=gererPanier&produit=<?= $id ?>&action=ajouterAuPanier"> 
-			<img src="assets/images/mettrepanier.png" title="Ajouter au panier" alt="Mettre au panier"> </a></div>
+			<div class="imgCard">
+				<a href="index.php?uc=voirProduits&action=voirDetails&produit=<?= $id ?>" class="btn btn-outline-info btn-sm m-1">En savoir plus</a>
+				<a href="index.php?uc=gererPanier&produit=<?= $id ?>&action=ajouterAuPanier"> 
+				<img src="assets/images/mettrepanier.png" title="Ajouter au panier" alt="Mettre au panier"> </a>
+			</div>
 			<?php if(isset($_SESSION['admin'])): ?>
 			<div class="admin-actions mt-2 text-center">
 				<a href="index.php?uc=administrer&action=modifier&produit=<?= $id ?>" class="btn btn-sm btn-warning mb-1" title="Modifier">📝 Modifier</a>

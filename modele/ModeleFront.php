@@ -104,6 +104,43 @@ class ModeleFront extends Modele
 	}
 
 	/**
+	 * Retourne les informations complètes d'un produit (avec marque, note, stock, contenance)
+	 *
+	 * @param string $id L'id du produit
+	 * @return object $laLigne l'objet produit
+	 */
+	public function getInfosProduit($id) {
+		try {
+			$req = 'select id, description, prix, image, idCategorie, noteClient, marque, contenance, stock from produit where id = ?';
+			$res = $this->executerRequete($req, array($id));
+			$laLigne = $res->fetch(PDO::FETCH_OBJ);
+			return $laLigne;
+		} catch (PDOException $e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Retourne des produits associés de la même catégorie pour le cross-selling
+	 *
+	 * @param string $idCategorie L'id de la catégorie
+	 * @param string $idProduit Courant produit à exclure
+	 * @param int $limite Nombre de produits à récupérer
+	 * @return array tableau d'objets produit
+	 */
+	public function getProduitsAssocies($idCategorie, $idProduit, $limite = 3) {
+		try {
+			$req = 'select id, description, prix, image, idCategorie from produit where idCategorie = ? and id != ? order by rand() limit ' . (int)$limite;
+			$res = $this->executerRequete($req, array($idCategorie, $idProduit));
+			$lesLignes = $res->fetchAll(PDO::FETCH_OBJ);
+			return $lesLignes;
+		} catch (PDOException $e) {
+			return false;
+		}
+	}
+
+
+	/**
 	 * Crée une commande de façon sécurisée (Requêtes préparées)
 	 *
 	 * @param string $nom nom du client
