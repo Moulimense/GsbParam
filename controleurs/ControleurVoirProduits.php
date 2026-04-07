@@ -29,17 +29,23 @@ class ControleurVoirProduits
      */
     public function voirProduits($categ = null)
     {
-        $lesCategories = $this->modeleFront->getLesCategories();
+        // Récupération des données du formulaire (POST ou GET via $_REQUEST)
+        $categ = isset($_REQUEST['categorie']) ? $_REQUEST['categorie'] : $categ;
+        $prixMin = !empty($_REQUEST['prixMin']) ? $_REQUEST['prixMin'] : null;
+        $prixMax = !empty($_REQUEST['prixMax']) ? $_REQUEST['prixMax'] : null;
+        $marque = !empty($_REQUEST['marque']) ? $_REQUEST['marque'] : null;
 
-        if ($categ == null || $categ == 'tous') {
-            // Évolution 2 : Tous les produits
-            $lesProduits = $this->modeleFront->getTousLesProduits();
-            $titre = "Tous nos produits";
-        } else {
-            // Évolution 1 : Titre dynamique par catégorie
-            $lesProduits = $this->modeleFront->getLesProduitsDeCategorie($categ);
+        // Préparation des données pour la vue
+        $lesCategories = $this->modeleFront->getLesCategories();
+        $lesMarques = $this->modeleFront->getLesMarques();
+        $lesProduits = $this->modeleFront->getLesProduitsFiltres($categ, $prixMin, $prixMax, $marque);
+
+        // Détermination du titre de la page
+        if ($categ && $categ != 'tous') {
             $laCategorie = $this->modeleFront->getLesInfosCategorie($categ);
-            $titre = "Produits de la catégorie : " . ($laCategorie ? $laCategorie->libelle : "Inconnue");
+            $titre = "Catégorie : " . ($laCategorie ? $laCategorie->libelle : "Inconnue");
+        } else {
+            $titre = "Tous nos produits";
         }
 
         include("vues/v_choixCategorie.php");

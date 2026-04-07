@@ -13,10 +13,8 @@ require_once 'modele/Modele.php';
  */
 class ModeleFront extends Modele
 {
-
 	/**
 	 * Retourne toutes les catégories 
-	 *
 	 * @return array $lesLignes le tableau des catégories (tableau d'objets)
 	 */
 	public function getLesCategories()
@@ -33,14 +31,12 @@ class ModeleFront extends Modele
 
 	/**
 	 * Retourne toutes les informations d'une catégorie passée en paramètre
-	 *
 	 * @param string $idCategorie l'id de la catégorie
 	 * @return object $laLigne la catégorie (objet)
 	 */
 	public function getLesInfosCategorie($idCategorie)
 	{
 		try {
-			// Utilisation d'une requête préparée pour sécuriser l'accès
 			$req = 'SELECT id, libelle FROM categorie WHERE id = ?';
 			$res = $this->executerRequete($req, array($idCategorie));
 			$laLigne = $res->fetch(PDO::FETCH_OBJ);
@@ -51,34 +47,58 @@ class ModeleFront extends Modele
 	}
 
 	/**
-	 * Retourne sous forme d'un tableau tous les produits de la
-	 * catégorie passée en argument (si null retourne tous les produits)
-	 * * @param string $idCategorie l'id de la catégorie dont on veut les produits
-	 * @return array $lesLignes un tableau des produits
+	 * Retourne les produits en fonction des filtres (Évolution Phase 2)
+	 * Protégé contre les injections SQL via requêtes préparées.
 	 */
-	public function getLesProduitsDeCategorie($idCategorie = null)
+	public function getLesProduitsFiltres($idCategorie = null, $prixMin = null, $prixMax = null, $marque = null)
 	{
 		try {
-			if ($idCategorie == null) {
-				$req = 'select id, description, prix, image, idCategorie from produit';
-				$res = $this->executerRequete($req);
-			} else {
-				// Requête préparée pour sécuriser le filtrage par catégorie
-				$req = 'select id, description, prix, image, idCategorie from produit where idCategorie = ?';
-				$res = $this->executerRequete($req, array($idCategorie));
+			// Construction dynamique de la requête
+			$sql = "SELECT id, description, prix, image, idCategorie, marque FROM produit WHERE 1=1";
+			$params = array();
+
+			if ($idCategorie && $idCategorie != 'tous') {
+				$sql .= " AND idCategorie = ?";
+				$params[] = $idCategorie;
 			}
-			$lesLignes = $res->fetchAll(PDO::FETCH_OBJ);
-			return $lesLignes;
+			if ($prixMin) {
+				$sql .= " AND prix >= ?";
+				$params[] = $prixMin;
+			}
+			if ($prixMax) {
+				$sql .= " AND prix <= ?";
+				$params[] = $prixMax;
+			}
+			if ($marque && $marque != '') {
+				$sql .= " AND marque = ?";
+				$params[] = $marque;
+			}
+
+			$sql .= " ORDER BY prix ASC";
+			$res = $this->executerRequete($sql, $params);
+			return $res->fetchAll(PDO::FETCH_OBJ);
 		} catch (PDOException $e) {
-			return false;
+			// Si l'erreur est "Column not found", on retourne une liste vide ou gérée
+			return array();
+		}
+	}
+
+	/**
+	 * Retourne la liste unique des marques présentes en base
+	 */
+	public function getLesMarques()
+	{
+		try {
+			$req = "SELECT DISTINCT marque FROM produit WHERE marque IS NOT NULL ORDER BY marque";
+			$res = $this->executerRequete($req);
+			return $res->fetchAll(PDO::FETCH_OBJ);
+		} catch (PDOException $e) {
+			return array();
 		}
 	}
 
 	/**
 	 * Retourne les produits concernés par le tableau des idProduits passé en argument
-	 *
-	 * @param array $desIdsProduit tableau d'idProduits
-	 * @return array $lesProduits un tableau contenant les infos des produits
 	 */
 	public function getLesProduitsDuTableau($desIdsProduit = null)
 	{
@@ -86,7 +106,6 @@ class ModeleFront extends Modele
 			$lesProduits = array();
 			if ($desIdsProduit != null) {
 				foreach ($desIdsProduit as $unIdProduit) {
-					// Sécurisation de la récupération individuelle de chaque produit
 					$req = 'select id, description, prix, image, idCategorie from produit where id = ?';
 					$res = $this->executerRequete($req, array($unIdProduit));
 					$unProduit = $res->fetch(PDO::FETCH_OBJ);
@@ -104,56 +123,36 @@ class ModeleFront extends Modele
 	}
 
 	/**
-	 * Retourne les informations complètes d'un produit (avec marque, note, stock, contenance)
-	 *
-	 * @param string $id L'id du produit
-	 * @return object $laLigne l'objet produit
+	 * Retourne les informations complètes d'un produit
 	 */
 	public function getInfosProduit($id)
 	{
 		try {
 			$req = 'select id, description, prix, image, idCategorie, noteClient, marque, contenance, stock from produit where id = ?';
 			$res = $this->executerRequete($req, array($id));
-			$laLigne = $res->fetch(PDO::FETCH_OBJ);
-			return $laLigne;
+			return $res->fetch(PDO::FETCH_OBJ);
 		} catch (PDOException $e) {
 			return false;
 		}
 	}
 
 	/**
-	 * Retourne des produits associés de la même catégorie pour le cross-selling
-	 *
-	 * @param string $idCategorie L'id de la catégorie
-	 * @param string $idProduit Courant produit à exclure
-	 * @param int $limite Nombre de produits à récupérer
-	 * @return array tableau d'objets produit
+	 * Retourne des produits associés de la même catégorie (Cross-selling)
 	 */
 	public function getProduitsAssocies($idCategorie, $idProduit, $limite = 3)
 	{
 		try {
 			$req = 'select id, description, prix, image, idCategorie from produit where idCategorie = ? and id != ? order by rand() limit ' . (int) $limite;
 			$res = $this->executerRequete($req, array($idCategorie, $idProduit));
-			$lesLignes = $res->fetchAll(PDO::FETCH_OBJ);
-			return $lesLignes;
+			return $res->fetchAll(PDO::FETCH_OBJ);
 		} catch (PDOException $e) {
 			return false;
 		}
 	}
 
-
 	/**
-	 * Crée une commande de façon sécurisée (Requêtes préparées)
-	 *
-	 * @param string $nom nom du client
-	 * @param string $rue rue du client
-	 * @param string $cp cp du client
-	 * @param string $ville ville du client
-	 * @param string $mail mail du client
-	 * @param array $lesProduitsQte tableau contenant les id des produits en clé et les quantités en valeur
-	 * @return boolean true si succès, false si erreur
+	 * Crée une commande
 	 */
-
 	public function creerCommande($nom, $rue, $cp, $ville, $mail, $lesProduitsQte)
 	{
 		try {
@@ -163,11 +162,9 @@ class ModeleFront extends Modele
 			$idCommande = $laLigne['maxi'] + 1;
 			$date = date('Y-m-d');
 
-			// Insertion de la commande
 			$req = "insert into commande (id, dateCommande, nomPrenomClient, adresseRueClient, cpClient, villeClient, mailClient) values (?, ?, ?, ?, ?, ?, ?)";
 			$this->executerRequete($req, array($idCommande, $date, $nom, $rue, $cp, $ville, $mail));
 
-			// Insertion des produits avec leur quantité
 			foreach ($lesProduitsQte as $idProduit => $qte) {
 				$req = "insert into contenir (idCommande, idProduit, quantite) values (?, ?, ?)";
 				$this->executerRequete($req, array($idCommande, $idProduit, $qte));
@@ -178,9 +175,6 @@ class ModeleFront extends Modele
 		}
 	}
 
-	/**
-	 * Retourne les informations d'un administrateur
-	 */
 	public function getInfosAdmin($login)
 	{
 		$req = "select id, nom, mdp from administrateur where nom = ?";
@@ -188,68 +182,36 @@ class ModeleFront extends Modele
 		return $res->fetch(PDO::FETCH_OBJ);
 	}
 
-	/**
-	 * Vérifie les identifiants client et retourne ses infos
-	 * @param string $mail
-	 * @param string $mdp
-	 * @return object|false infos du client ou false si erreur
-	 */
-	public function getInfosClient($mail, $mdp)
-	{
-		// Dans l'idéal, on récupère le mdp haché et on utilise password_verify
-		$req = "select id, nom, prenom, rue, cp, ville, mail from client where mail = ? and mdp = ?";
-		$res = $this->executerRequete($req, array($mail, $mdp));
-		return $res->fetch(PDO::FETCH_OBJ);
-	}
-
-	/**
-	 * Créer un produit
-	 */
 	public function creerProduit($id, $description, $prix, $image, $idCategorie)
 	{
 		$req = "INSERT INTO produit (id, description, prix, image, idCategorie) VALUES (?, ?, ?, ?, ?)";
 		$this->executerRequete($req, array($id, $description, $prix, $image, $idCategorie));
 	}
 
-	/**
-	 * Modifier un produit
-	 */
 	public function modifierProduit($id, $description, $prix, $idCategorie)
 	{
 		$req = "UPDATE produit SET description = ?, prix = ?, idCategorie = ? WHERE id = ?";
 		$this->executerRequete($req, array($description, $prix, $idCategorie, $id));
 	}
 
-	/**
-	 * Supprimer un produit
-	 */
 	public function supprimerProduit($id)
 	{
 		$req = "DELETE FROM produit WHERE id = ?";
 		$this->executerRequete($req, array($id));
 	}
 
-	/**
-	 * Retourne tous les produits de la base
-	 */
 	public function getTousLesProduits()
 	{
 		$req = "SELECT id, description, prix, image, idCategorie FROM produit";
 		$res = $this->executerRequete($req);
-		$lesLignes = $res->fetchAll(PDO::FETCH_OBJ);
-		return $lesLignes;
+		return $res->fetchAll(PDO::FETCH_OBJ);
 	}
-	/**
-	 * Enregistre un nouveau client (Scénario USR8)
-	 * Utilise le hachage BCRYPT pour la sécurité RGPD
-	 */
+
 	public function inscrireClient($nom, $prenom, $rue, $cp, $ville, $mail, $mdp)
 	{
-		$mdpHash = password_hash($mdp, PASSWORD_BCRYPT); // Sécurité obligatoire
-
+		$mdpHash = password_hash($mdp, PASSWORD_BCRYPT);
 		$req = "INSERT INTO client (nom, prenom, rue, cp, ville, mail, mdp) 
             VALUES (:nom, :prenom, :rue, :cp, :ville, :mail, :mdp)";
-
 		try {
 			$this->executerRequete($req, array(
 				':nom' => $nom,
