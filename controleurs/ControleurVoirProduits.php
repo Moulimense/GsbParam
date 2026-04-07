@@ -72,18 +72,34 @@ class ControleurVoirProduits
         $mail = $_POST['mail'];
         $mdp = $_POST['mdp'];
         $mdp2 = $_POST['mdp2'];
-        // récupère les autres champs si nécessaire...
+        $cp = $_POST['cp'];
 
-        if ($mdp != $mdp2) {
-            $msgErreurs[] = "Les mots de passe ne correspondent pas";
+        if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+            $msgErreurs[] = "L'adresse email n'est pas valide.";
+            include 'vues/v_erreurs.php';
+            include 'vues/v_inscription.php';
+        } else if (!preg_match('/^[0-9]{5}$/', $cp)) {
+            $msgErreurs[] = "Le code postal doit être composé d'exactement 5 chiffres.";
+            include 'vues/v_erreurs.php';
+            include 'vues/v_inscription.php';
+        } else if ($mdp !== $mdp2) {
+            $msgErreurs[] = "Les mots de passe ne correspondent pas.";
+            include 'vues/v_erreurs.php';
+            include 'vues/v_inscription.php';
+        } else if (strlen($mdp) < 12 || !preg_match('/[A-Z]/', $mdp) || !preg_match('/[a-z]/', $mdp) || !preg_match('/[0-9]/', $mdp) || !preg_match('/[\W_]/', $mdp)) {
+            $msgErreurs[] = "Le mot de passe doit respecter les règles de sécurité (minimum 12 caractères, avec majuscule, minuscule, chiffre et caractère spécial).";
             include 'vues/v_erreurs.php';
             include 'vues/v_inscription.php';
         } else {
             $modele = new ModeleFront();
             $ok = $modele->inscrireClient($nom, $prenom, $_POST['rue'], $_POST['cp'], $_POST['ville'], $mail, $mdp);
             if ($ok) {
-                echo "Inscription réussie !";
-                // Tu peux inclure la vue de connexion ici
+                // Inscription réussie, affichage direct de la vue de connexion
+                $this->afficherConnexion();
+            } else {
+                $msgErreurs[] = "Une erreur est survenue lors de l'inscription.";
+                include 'vues/v_erreurs.php';
+                include 'vues/v_inscription.php';
             }
         }
     }

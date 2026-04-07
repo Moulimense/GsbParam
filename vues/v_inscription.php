@@ -27,7 +27,7 @@
                         <div class="row gx-3 mb-3">
                             <div class="col-md-4">
                                 <label for="cp" class="form-label fw-semibold">Code Postal</label>
-                                <input type="text" class="form-control form-control-lg" name="cp" id="cp" placeholder="75000" pattern="[0-9]{5}" required>
+                                <input type="text" class="form-control form-control-lg" name="cp" id="cp" placeholder="75000" pattern="[0-9]{5}" maxlength="5" title="Le code postal doit contenir exactement 5 chiffres" required>
                             </div>
                             <div class="col-md-8 mt-3 mt-md-0">
                                 <label for="ville" class="form-label fw-semibold">Ville</label>
@@ -37,13 +37,14 @@
 
                         <div class="mb-3">
                             <label for="mail" class="form-label fw-semibold">Adresse Email</label>
-                            <input type="email" class="form-control form-control-lg" name="mail" id="mail" placeholder="nom@exemple.com" required>
+                            <input type="email" class="form-control form-control-lg" name="mail" id="mail" placeholder="nom@exemple.com" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" title="Veuillez saisir une adresse email valide (ex: nom@domaine.com ou .fr)" required>
                         </div>
 
                         <div class="row gx-3 mb-4">
                             <div class="col-md-6">
                                 <label for="mdp" class="form-label fw-semibold">Mot de passe</label>
-                                <input type="password" class="form-control form-control-lg" name="mdp" id="mdp" placeholder="••••••••" required>
+                                <input type="password" class="form-control form-control-lg" name="mdp" id="mdp" placeholder="••••••••" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{12,}" title="Au moins 12 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial" required>
+                                <small class="text-muted d-block mt-1" style="font-size: 0.8em;">12 carac. min, 1 Maj, 1 min, 1 chiffre, 1 spécial</small>
                             </div>
                             <div class="col-md-6 mt-3 mt-md-0">
                                 <label for="mdp2" class="form-label fw-semibold">Confirmer</label>
