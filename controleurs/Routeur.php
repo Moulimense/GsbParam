@@ -64,6 +64,9 @@ class Routeur
                     case 'nosProduits':
                         $this->ctrlVoirProduits->voirProduits();
                         break;
+                    case 'voirDetails':
+                        $this->ctrlVoirProduits->voirDetailsProduit($_REQUEST['produit']);
+                        break;
                 }
                 break;
 
