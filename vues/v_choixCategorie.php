@@ -32,11 +32,11 @@
             <div class="col-md-4">
                 <label class="form-label fw-bold small text-uppercase">Fourchette de prix (€)</label>
                 <div class="input-group">
-                    <input type="number" name="prixMin" class="form-control" placeholder="Min" aria-label="Prix Minimum"
-                        value="<?= $_REQUEST['prixMin'] ?? '' ?>">
+                    <input type="number" step="any" name="prixMin" class="form-control" placeholder="Min"
+                        aria-label="Prix Minimum" value="<?= $_REQUEST['prixMin'] ?? '' ?>">
                     <span class="input-group-text bg-light">à</span>
-                    <input type="number" name="prixMax" class="form-control" placeholder="Max" aria-label="Prix Maximum"
-                        value="<?= $_REQUEST['prixMax'] ?? '' ?>">
+                    <input type="number" step="any" name="prixMax" class="form-control" placeholder="Max"
+                        aria-label="Prix Maximum" value="<?= $_REQUEST['prixMax'] ?? '' ?>">
                 </div>
             </div>
 

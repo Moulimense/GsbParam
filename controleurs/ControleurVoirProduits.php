@@ -104,5 +104,44 @@ class ControleurVoirProduits
             $this->voirProduits();
         }
     }
+
+    public function afficherConnexion()
+    {
+        include 'vues/v_connexion.php';
+    }
+
+    public function validerConnexion()
+    {
+        $mail = $_POST['mail'] ?? '';
+        $mdp = $_POST['mdp'] ?? '';
+
+        $client = $this->modeleFront->verifierClient($mail, $mdp);
+
+        if ($client) {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            $_SESSION['idClient'] = $client->id;
+            $_SESSION['nomClient'] = $client->nom;
+            $_SESSION['prenomClient'] = $client->prenom;
+            
+            header('Location: index.php');
+            exit();
+        } else {
+            $msgErreurs[] = "Email ou mot de passe incorrect";
+            include 'vues/v_erreurs.php';
+            include 'vues/v_connexion.php';
+        }
+    }
+
+    public function deconnexion()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        unset($_SESSION['idClient'], $_SESSION['nomClient'], $_SESSION['prenomClient']);
+        header('Location: index.php');
+        exit();
+    }
 }
 ?>

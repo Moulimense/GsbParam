@@ -48,6 +48,15 @@ class Routeur
                     case 'confirmerInscription':
                         $this->ctrlVoirProduits->enregistrerInscription();
                         break;
+                    case 'demanderConnexion':
+                        $this->ctrlVoirProduits->afficherConnexion();
+                        break;
+                    case 'validerConnexion':
+                        $this->ctrlVoirProduits->validerConnexion();
+                        break;
+                    case 'deconnexion':
+                        $this->ctrlVoirProduits->deconnexion();
+                        break;
                 }
                 break;
 

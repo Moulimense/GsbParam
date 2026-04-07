@@ -227,5 +227,21 @@ class ModeleFront extends Modele
 			return false;
 		}
 	}
+
+	public function verifierClient($mail, $mdp)
+	{
+		$req = "SELECT id, nom, prenom, mdp FROM client WHERE mail = ?";
+		try {
+			$res = $this->executerRequete($req, array($mail));
+			$client = $res->fetch(PDO::FETCH_OBJ);
+			if ($client && password_verify($mdp, $client->mdp)) {
+				return $client;
+			} else {
+				return false;
+			}
+		} catch (PDOException $e) {
+			return false;
+		}
+	}
 }
 ?>
