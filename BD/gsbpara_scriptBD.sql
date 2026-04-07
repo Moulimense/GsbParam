@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : mar. 07 avr. 2026 à 08:57
+-- Généré le : mar. 07 avr. 2026 à 09:47
 -- Version du serveur : 11.5.2-MariaDB
 -- Version de PHP : 8.3.14
 
@@ -46,6 +46,35 @@ INSERT INTO `administrateur` (`id`, `nom`, `mdp`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `avis`
+--
+
+DROP TABLE IF EXISTS `avis`;
+CREATE TABLE IF NOT EXISTS `avis` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idProduit` varchar(5) NOT NULL,
+  `idClient` int(11) NOT NULL,
+  `note` int(1) NOT NULL,
+  `commentaire` text DEFAULT NULL,
+  `dateAvis` date NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_avis_produit` (`idProduit`),
+  KEY `fk_avis_client` (`idClient`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `avis`
+--
+
+INSERT INTO `avis` (`id`, `idProduit`, `idClient`, `note`, `commentaire`, `dateAvis`) VALUES
+(1, 'c01', 10, 5, 'Super shampooing, laisse les cheveux très doux et l\'odeur de thé vert est géniale !', '2026-03-20'),
+(2, 'c01', 11, 4, 'Bon produit, mais le format est un peu petit pour le prix.', '2026-03-25'),
+(3, 'p01', 10, 5, 'Protection parfaite pour ma peau sensible, je recommande.', '2026-04-01'),
+(4, 'f03', 11, 3, 'Efficace mais la texture est un peu grasse à mon goût.', '2026-04-05');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `categorie`
 --
 
@@ -83,7 +112,15 @@ CREATE TABLE IF NOT EXISTS `client` (
   `mdp` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `mail` (`mail`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+--
+-- Déchargement des données de la table `client`
+--
+
+INSERT INTO `client` (`id`, `nom`, `prenom`, `rue`, `cp`, `ville`, `mail`, `mdp`) VALUES
+(10, 'Durant', 'Marie', '5 rue des Lilas', '75010', 'Paris', 'marie.durant@gmail.com', 'client123'),
+(11, 'Lefebvre', 'Thomas', '12 avenue Foch', '69000', 'Lyon', 't.lefebvre@yahoo.fr', 'client456');
 
 -- --------------------------------------------------------
 
@@ -194,6 +231,13 @@ INSERT INTO `produit` (`id`, `description`, `prix`, `image`, `idCategorie`, `mar
 --
 -- Contraintes pour les tables déchargées
 --
+
+--
+-- Contraintes pour la table `avis`
+--
+ALTER TABLE `avis`
+  ADD CONSTRAINT `fk_avis_client` FOREIGN KEY (`idClient`) REFERENCES `client` (`id`),
+  ADD CONSTRAINT `fk_avis_produit` FOREIGN KEY (`idProduit`) REFERENCES `produit` (`id`);
 
 --
 -- Contraintes pour la table `commande`
