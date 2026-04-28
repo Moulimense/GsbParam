@@ -91,18 +91,30 @@ class ControleurGererPanier
 	 */
 	function ajouterAuPanier($idProduit)
 	{
-		if (isset($_SESSION['produits'][$idProduit])) {
-			$_SESSION['produits'][$idProduit]++; // On augmente la quantité
+		$produit = $this->modeleFront->getInfosProduit($idProduit);
+		$stock = $produit ? $produit->stock : 0;
+		$qteActuelle = isset($_SESSION['produits'][$idProduit]) ? $_SESSION['produits'][$idProduit] : 0;
+		$qteDesiree = $qteActuelle + 1;
+
+		if ($qteDesiree > $stock) {
+			$msgErreurs[] = "Erreur : La quantité demandée dépasse le stock disponible (" . $stock . " restant en stock).";
+			include("vues/v_erreurs.php");
 		} else {
-			$_SESSION['produits'][$idProduit] = 1; // Premier ajout
+			$_SESSION['produits'][$idProduit] = $qteDesiree;
 		}
 		$this->voirPanier();
 	}
 
 	function modifierQuantite($idProduit, $qte)
 	{
+		$produit = $this->modeleFront->getInfosProduit($idProduit);
+		$stock = $produit ? $produit->stock : 0;
+
 		if ($qte <= 0) {
 			unset($_SESSION['produits'][$idProduit]);
+		} else if ($qte > $stock) {
+			$msgErreurs[] = "Erreur : La quantité demandée dépasse le stock disponible (" . $stock . " restant en stock).";
+			include("vues/v_erreurs.php");
 		} else {
 			$_SESSION['produits'][$idProduit] = $qte;
 		}
