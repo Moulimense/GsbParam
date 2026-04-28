@@ -1,25 +1,29 @@
 <?php
-require_once 'modele/ModeleFront.php'; 
+require_once 'modele/ModeleFront.php';
 
-class ControleurAdmin {
+class ControleurAdmin
+{
     private $modele;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->modele = new ModeleFront();
     }
 
     // Afficher le formulaire de connexion
-    public function connexion() {
+    public function connexion()
+    {
         include("vues/v_connexionAdmin.php");
     }
 
     // Vérifier les identifiants
-    public function validerConnexion() {
+    public function validerConnexion()
+    {
         $login = $_REQUEST['login'];
         $mdp = $_REQUEST['mdp'];
-        
+
         // On récupère l'admin en base
-        $admin = $this->modele->getInfosAdmin($login); 
+        $admin = $this->modele->getInfosAdmin($login);
 
         // password_verify vérifie le hash sécurisé 
         if ($admin && password_verify($mdp, $admin->mdp)) {
@@ -33,8 +37,9 @@ class ControleurAdmin {
     }
 
     // Liste des produits (Protégée)
-    public function listeProduits() {
-        if(!isset($_SESSION['admin'])) {
+    public function listeProduits()
+    {
+        if (!isset($_SESSION['admin'])) {
             $this->connexion();
         } else {
             $lesProduits = $this->modele->getLesProduitsDeCategorie();
@@ -42,25 +47,27 @@ class ControleurAdmin {
         }
     }
 
-    public function supprimer() {
-        if(isset($_SESSION['admin'])) {
+    public function supprimer()
+    {
+        if (isset($_SESSION['admin'])) {
             $id = $_REQUEST['produit'];
             $this->modele->supprimerProduit($id);
             // Redirection vers la liste pour voir le changement
-            $this->listeProduits(); 
+            $this->listeProduits();
         } else {
             $this->connexion();
         }
     }
 
-    public function validerCreation() {
-        if(isset($_SESSION['admin'])) {
+    public function validerCreation()
+    {
+        if (isset($_SESSION['admin'])) {
             $id = $_REQUEST['id'];
             $desc = $_REQUEST['description'];
             $prix = $_REQUEST['prix'];
             $cat = $_REQUEST['idCategorie'];
             $img = "images/defaut.jpg"; // On peut simplifier l'image pour débuter
-            
+
             $this->modele->creerProduit($id, $desc, $prix, $img, $cat);
             $this->listeProduits();
         } else {
@@ -68,7 +75,8 @@ class ControleurAdmin {
         }
     }
 
-    public function deconnexion() {
+    public function deconnexion()
+    {
         session_destroy();
         header("Location: index.php");
     }

@@ -144,18 +144,38 @@ class ControleurGererPanier
 		return isset($_SESSION['produits']) ? count($_SESSION['produits']) : 0;
 	}
 
-	/**
-	 * Affiche le formulaire de commande
-	 */
 	function passerCommande()
 	{
+		if (!isset($_SESSION['idClient'])) {
+			include("vues/v_acces_restreint.php");
+			return;
+		}
+
 		if ($this->nbProduitsDuPanier() > 0) {
-			$nom = '';
-			$rue = '';
-			$ville = '';
-			$cp = '';
-			$mail = '';
-			include("vues/v_commande.php");
+			$client = $this->modeleFront->getInfosClient($_SESSION['idClient']);
+			
+			if ($client) {
+				$nom = $client->nom . ' ' . $client->prenom;
+				$rue = $client->rue;
+				$ville = $client->ville;
+				$cp = $client->cp;
+				$mail = $client->mail;
+				
+				$lesProduitsQte = $this->getLesProduitsQteDuPanier();
+				$exec = $this->modeleFront->creerCommande($nom, $rue, $cp, $ville, $mail, $lesProduitsQte);
+
+				if ($exec) {
+					$message = "La commande a été enregistrée avec succès. Merci de votre visite !";
+					unset($_SESSION['produits']);
+					include("vues/v_message.php");
+				} else {
+					$msgErreurs[] = "Erreur technique : La commande n'a pas pu être enregistrée en base de données.";
+					include("vues/v_erreurs.php");
+				}
+			} else {
+				$msgErreurs[] = "Erreur : Impossible de récupérer les informations de votre compte.";
+				include("vues/v_erreurs.php");
+			}
 		} else {
 			$message = "Votre panier est vide !";
 			include("vues/v_message.php");

@@ -78,6 +78,10 @@ class ControleurVoirProduits
             $msgErreurs[] = "L'adresse email n'est pas valide.";
             include 'vues/v_erreurs.php';
             include 'vues/v_inscription.php';
+        } else if ($this->modeleFront->estMailUtilise($mail)) {
+            $msgErreurs[] = "Cette adresse e-mail est déjà utilisée.";
+            include 'vues/v_erreurs.php';
+            include 'vues/v_inscription.php';
         } else if (!preg_match('/^[0-9]{5}$/', $cp)) {
             $msgErreurs[] = "Le code postal doit être composé d'exactement 5 chiffres.";
             include 'vues/v_erreurs.php';
@@ -91,8 +95,7 @@ class ControleurVoirProduits
             include 'vues/v_erreurs.php';
             include 'vues/v_inscription.php';
         } else {
-            $modele = new ModeleFront();
-            $ok = $modele->inscrireClient($nom, $prenom, $_POST['rue'], $_POST['cp'], $_POST['ville'], $mail, $mdp);
+            $ok = $this->modeleFront->inscrireClient($nom, $prenom, $_POST['rue'], $_POST['cp'], $_POST['ville'], $mail, $mdp);
             if ($ok) {
                 // Inscription réussie, affichage direct de la vue de connexion
                 $this->afficherConnexion();

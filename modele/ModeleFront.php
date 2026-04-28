@@ -243,5 +243,28 @@ class ModeleFront extends Modele
 			return false;
 		}
 	}
+
+	public function getInfosClient($id)
+	{
+		$req = "SELECT id, nom, prenom, rue, cp, ville, mail FROM client WHERE id = ?";
+		try {
+			$res = $this->executerRequete($req, array($id));
+			return $res->fetch(PDO::FETCH_OBJ);
+		} catch (PDOException $e) {
+			return false;
+		}
+	}
+
+	public function estMailUtilise($mail)
+	{
+		$req = "SELECT COUNT(*) AS nb FROM client WHERE mail = ?";
+		try {
+			$res = $this->executerRequete($req, array($mail));
+			$ligne = $res->fetch(PDO::FETCH_OBJ);
+			return ($ligne->nb > 0);
+		} catch (PDOException $e) {
+			return false;
+		}
+	}
 }
 ?>
