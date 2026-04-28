@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3307
--- Généré le : mar. 07 avr. 2026 à 09:47
--- Version du serveur : 11.5.2-MariaDB
--- Version de PHP : 8.3.14
+-- Host: 127.0.0.1:3307
+-- Generation Time: Apr 28, 2026 at 09:31 AM
+-- Server version: 11.5.2-MariaDB
+-- PHP Version: 8.3.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `gsb_paramv2`
+-- Database: `gsb_paramv2`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `administrateur`
+-- Table structure for table `administrateur`
 --
 
 DROP TABLE IF EXISTS `administrateur`;
@@ -36,46 +36,17 @@ CREATE TABLE IF NOT EXISTS `administrateur` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
--- Déchargement des données de la table `administrateur`
+-- Dumping data for table `administrateur`
 --
 
 INSERT INTO `administrateur` (`id`, `nom`, `mdp`) VALUES
-('1', 'LeBoss', 'TheBest$147#'),
+('1', 'LeBoss', '$2y$10$Xfp9LwOg0CYu6ZII1bBa0u9u8WrMnIGJVR3.HxqpFiuzcmzSwvDSu'),
 ('2', 'LeChefProjet', 'NearlyTheBest$280@');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `avis`
---
-
-DROP TABLE IF EXISTS `avis`;
-CREATE TABLE IF NOT EXISTS `avis` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `idProduit` varchar(5) NOT NULL,
-  `idClient` int(11) NOT NULL,
-  `note` int(1) NOT NULL,
-  `commentaire` text DEFAULT NULL,
-  `dateAvis` date NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_avis_produit` (`idProduit`),
-  KEY `fk_avis_client` (`idClient`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
-
---
--- Déchargement des données de la table `avis`
---
-
-INSERT INTO `avis` (`id`, `idProduit`, `idClient`, `note`, `commentaire`, `dateAvis`) VALUES
-(1, 'c01', 10, 5, 'Super shampooing, laisse les cheveux très doux et l\'odeur de thé vert est géniale !', '2026-03-20'),
-(2, 'c01', 11, 4, 'Bon produit, mais le format est un peu petit pour le prix.', '2026-03-25'),
-(3, 'p01', 10, 5, 'Protection parfaite pour ma peau sensible, je recommande.', '2026-04-01'),
-(4, 'f03', 11, 3, 'Efficace mais la texture est un peu grasse à mon goût.', '2026-04-05');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `categorie`
+-- Table structure for table `categorie`
 --
 
 DROP TABLE IF EXISTS `categorie`;
@@ -86,18 +57,19 @@ CREATE TABLE IF NOT EXISTS `categorie` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
--- Déchargement des données de la table `categorie`
+-- Dumping data for table `categorie`
 --
 
 INSERT INTO `categorie` (`id`, `libelle`) VALUES
 ('CH', 'Cheveux'),
 ('FO', 'Forme'),
-('PS', 'Protection Solaire');
+('PS', 'Protection Solaire'),
+('TES', 'Test');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `client`
+-- Table structure for table `client`
 --
 
 DROP TABLE IF EXISTS `client`;
@@ -112,20 +84,20 @@ CREATE TABLE IF NOT EXISTS `client` (
   `mdp` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `mail` (`mail`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
--- Déchargement des données de la table `client`
+-- Dumping data for table `client`
 --
 
 INSERT INTO `client` (`id`, `nom`, `prenom`, `rue`, `cp`, `ville`, `mail`, `mdp`) VALUES
-(10, 'Durant', 'Marie', '5 rue des Lilas', '75010', 'Paris', 'marie.durant@gmail.com', 'client123'),
-(11, 'Lefebvre', 'Thomas', '12 avenue Foch', '69000', 'Lyon', 't.lefebvre@yahoo.fr', 'client456');
+(1, 'azer', 'azr', '32 r r', '55555', 'a', 'azert@gmail.com', '$2y$10$riea2TdPwqo8eT49Emn9mOyjNXvjt0QMNeZPtqyE7FFo7ChzmVxky'),
+(2, 'rkd', 'rkd', 'rkd', '45000', 'orleans', 'rkd@gmail.com', '$2y$10$mNjE7j.E2QFqD6B9ZI4uXOBIiZSc6k7hlWLZqXB53Y4X/k1vvPBNC');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `commande`
+-- Table structure for table `commande`
 --
 
 DROP TABLE IF EXISTS `commande`;
@@ -143,19 +115,20 @@ CREATE TABLE IF NOT EXISTS `commande` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
--- Déchargement des données de la table `commande`
+-- Dumping data for table `commande`
 --
 
 INSERT INTO `commande` (`id`, `dateCommande`, `nomPrenomClient`, `adresseRueClient`, `cpClient`, `villeClient`, `mailClient`, `idClient`) VALUES
 ('1101461660', '2024-09-01', 'Dupont Jacques', '12, rue haute', '75001', 'Paris', 'dupont@wanadoo.fr', NULL),
 ('1101461665', '2024-09-01', 'Durant Yves', '23, rue des ombres', '75012', 'Paris', 'durant@free.fr', NULL),
 ('1101461666', '2026-03-31', 'uyhiuyo', 'qdgfdc', '22222', 'dcbds', 'fve@gmail.com', NULL),
-('1101461667', '2026-04-01', 'fshgsdf,fs', 'f,bnf,ggf gf', '46152', 'vojlyfeyrhjl;df', 'sol@gmail.com', NULL);
+('1101461667', '2026-04-01', 'fshgsdf,fs', 'f,bnf,ggf gf', '46152', 'vojlyfeyrhjl;df', 'sol@gmail.com', NULL),
+('1101461668', '2026-04-07', 'azer', '32', '55555', 'a', 'azert@gmail.com', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `contenir`
+-- Table structure for table `contenir`
 --
 
 DROP TABLE IF EXISTS `contenir`;
@@ -169,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `contenir` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
--- Déchargement des données de la table `contenir`
+-- Dumping data for table `contenir`
 --
 
 INSERT INTO `contenir` (`idCommande`, `idProduit`, `quantite`) VALUES
@@ -178,12 +151,14 @@ INSERT INTO `contenir` (`idCommande`, `idProduit`, `quantite`) VALUES
 ('1101461665', 'f05', 1),
 ('1101461665', 'p06', 1),
 ('1101461666', 'c01', 3),
-('1101461667', 'c02', 7);
+('1101461667', 'c02', 7),
+('1101461668', 'c01', 3),
+('1101461668', 'c04', 1);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `produit`
+-- Table structure for table `produit`
 --
 
 DROP TABLE IF EXISTS `produit`;
@@ -202,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `produit` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
--- Déchargement des données de la table `produit`
+-- Dumping data for table `produit`
 --
 
 INSERT INTO `produit` (`id`, `description`, `prix`, `image`, `idCategorie`, `marque`, `contenance`, `stock`, `noteClient`) VALUES
@@ -226,34 +201,28 @@ INSERT INTO `produit` (`id`, `description`, `prix`, `image`, `idCategorie`, `mar
 ('p04', 'La Roche Posay Anthélios 50+ Brume Visage', 8.75, 'assets/images/la-roche-posay-anthelios-50-brume-visage-toucher-sec-75ml.png', 'PS', 'La Roche Posay', '75 ml', 32, 3.9),
 ('p05', 'Nuxe Sun Huile Lactée Capillaire Protectrice', 15.00, 'assets/images/nuxe-sun-huile-lactee-capillaire-protectrice-100ml.png', 'PS', 'Nuxe Sun', '100 ml', 29, 3.6),
 ('p06', 'Uriage Bariésun stick lèvres SPF30 4g', 5.65, 'assets/images/uriage-bariesun-stick-levres-spf30-4g.jpg', 'PS', 'Uriage', '4 g', 9, 4),
-('p07', 'Bioderma Cicabio creme SPF50+ 30ml', 13.70, 'assets/images/bioderma-cicabio-creme-spf50-30ml.png', 'PS', 'Bioderma', '30 ml', 12, 4.7);
+('p07', 'Bioderma Cicabio creme SPF50+ 30ml', 13.70, 'assets/images/bioderma-cicabio-creme-spf50-30ml.png', 'PS', 'Bioderma', '30 ml', 12, 4.7),
+('t01', 'Test Produit', 9.99, 'assets/images/test.jpg', 'TES', NULL, NULL, 0, 4);
 
 --
--- Contraintes pour les tables déchargées
+-- Constraints for dumped tables
 --
 
 --
--- Contraintes pour la table `avis`
---
-ALTER TABLE `avis`
-  ADD CONSTRAINT `fk_avis_client` FOREIGN KEY (`idClient`) REFERENCES `client` (`id`),
-  ADD CONSTRAINT `fk_avis_produit` FOREIGN KEY (`idProduit`) REFERENCES `produit` (`id`);
-
---
--- Contraintes pour la table `commande`
+-- Constraints for table `commande`
 --
 ALTER TABLE `commande`
   ADD CONSTRAINT `fk_commande_client` FOREIGN KEY (`idClient`) REFERENCES `client` (`id`);
 
 --
--- Contraintes pour la table `contenir`
+-- Constraints for table `contenir`
 --
 ALTER TABLE `contenir`
   ADD CONSTRAINT `contenir_ibfk_1` FOREIGN KEY (`idCommande`) REFERENCES `commande` (`id`),
   ADD CONSTRAINT `contenir_ibfk_2` FOREIGN KEY (`idProduit`) REFERENCES `produit` (`id`);
 
 --
--- Contraintes pour la table `produit`
+-- Constraints for table `produit`
 --
 ALTER TABLE `produit`
   ADD CONSTRAINT `produit_ibfk_1` FOREIGN KEY (`idCategorie`) REFERENCES `categorie` (`id`);

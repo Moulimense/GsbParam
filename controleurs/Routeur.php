@@ -113,16 +113,28 @@ class Routeur
                 $this->ctrlAdmin = new ControleurAdmin();
                 switch ($action) {
                     case 'connexion':
-                        $this->ctrlAdmin->login();
+                        $this->ctrlAdmin->connexion();
                         break;
                     case 'validerConnexion':
                         $this->ctrlAdmin->validerConnexion();
                         break;
                     case 'listeProduits':
-                        $this->ctrlAdmin->gestionProduits();
+                        $this->ctrlAdmin->listeProduits();
+                        break;
+                    case 'ajouterProduit':
+                        $this->ctrlAdmin->ajouterProduit();
+                        break;
+                    case 'modifierProduit':
+                        $this->ctrlAdmin->modifierProduit();
+                        break;
+                    case 'supprimer':
+                        $this->ctrlAdmin->supprimer();
+                        break;
+                    case 'deconnexion':
+                        $this->ctrlAdmin->deconnexion();
                         break;
                     default:
-                        $this->ctrlAdmin->login();
+                        $this->ctrlAdmin->connexion();
                 }
                 break;
         }

@@ -19,6 +19,11 @@
             <?php if (isset($_SESSION['idClient'])): ?>
                 <li><a href="index.php?uc=connexion&action=deconnexion"
                     class="nav-link rounded-pill px-3 mx-1 fw-bold text-danger">Déconnexion (<?= htmlspecialchars($_SESSION['prenomClient']) ?>)</a></li>
+            <?php elseif (isset($_SESSION['admin'])): ?>
+                <li><a href="index.php?uc=administrer&action=listeProduits"
+                    class="nav-link rounded-pill px-3 mx-1 fw-bold link-primary">Gestion de produits</a></li>
+                <li><a href="index.php?uc=administrer&action=deconnexion"
+                    class="nav-link rounded-pill px-3 mx-1 fw-bold text-danger">Déconnexion (<?= htmlspecialchars($_SESSION['admin']) ?>)</a></li>
             <?php else: ?>
                 <li><a href="index.php?uc=connexion&action=demanderInscription"
                     class="nav-link rounded-pill px-3 mx-1 fw-bold link-dark">S'inscrire</a></li>

@@ -38,16 +38,16 @@ class ModeleBack extends Modele {
     /**
      * Ajoute un nouveau produit dans la base
      */
-    public function ajouterProduit($id, $description, $prix, $image, $idCategorie) {
-        $req = "insert into produit (id, description, prix, image, idCategorie) values (?, ?, ?, ?, ?)";
-        $this->executerRequete($req, array($id, $description, $prix, $image, $idCategorie));
+    public function ajouterProduit($nom, $description, $prix, $image, $idCategorie) {
+        $req = "INSERT INTO produit (id, description, prix, image, idCategorie) VALUES (?, ?, ?, ?, ?)";
+        $this->executerRequete($req, array($nom, $description, $prix, $image, $idCategorie));
     }
 
     /**
      * Modifie un produit existant
      */
-    public function modifierProduit($id, $description, $prix, $image, $idCategorie) {
-        $req = "update produit set description = ?, prix = ?, image = ?, idCategorie = ? where id = ?";
+    public function modifierProduit($id, $nom, $description, $prix, $image, $idCategorie) {
+        $req = "UPDATE produit SET description = ?, prix = ?, image = ?, idCategorie = ? WHERE id = ?";
         $this->executerRequete($req, array($description, $prix, $image, $idCategorie, $id));
     }
 
@@ -57,6 +57,18 @@ class ModeleBack extends Modele {
     public function supprimerProduit($id) {
         $req = "delete from produit where id = ?";
         $this->executerRequete($req, array($id));
+    }
+
+    /**
+     * Crée une nouvelle catégorie si elle n'existe pas déjà
+     */
+    public function ajouterCategorie($id, $libelle) {
+        try {
+            $req = "INSERT INTO categorie (id, libelle) VALUES (?, ?)";
+            $this->executerRequete($req, array($id, $libelle));
+        } catch (PDOException $e) {
+            // Si la catégorie existe déjà, on ignore l'erreur
+        }
     }
 }
 ?>

@@ -25,13 +25,7 @@ foreach( $lesProduits as $unProduit)
 				<a href="index.php?uc=gererPanier&produit=<?= $id ?>&action=ajouterAuPanier"> 
 				<img src="assets/images/mettrepanier.png" title="Ajouter au panier" alt="Mettre au panier"> </a>
 			</div>
-			<?php if(isset($_SESSION['admin'])): ?>
-			<div class="admin-actions mt-2 text-center">
-				<a href="index.php?uc=administrer&action=modifier&produit=<?= $id ?>" class="btn btn-sm btn-warning mb-1" title="Modifier">📝 Modifier</a>
-				<a href="index.php?uc=administrer&action=supprimer&produit=<?= $id ?>" class="btn btn-sm btn-danger mb-1" onclick="return confirm('Supprimer ce produit ?');" title="Supprimer">🗑️ Supprimer</a>
-			</div>
-			<?php endif; ?>
-			
+
 	</div>
 <?php			
 } // fin du foreach qui parcourt les produits
