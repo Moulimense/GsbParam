@@ -39,9 +39,11 @@
             </div>
 
             <div class="mb-4">
+                <?php if (isset($_SESSION['idClient'])): ?>
                 <a href="index.php?uc=gererPanier&produit=<?= $unProduit->id ?>&action=ajouterAuPanier" class="btn btn-success btn-lg <?= $unProduit->stock <= 0 ? 'disabled' : '' ?>">
                     <img src="assets/images/mettrepanier.png" title="Ajouter au panier" alt="Mettre au panier" style="width:24px; margin-right:8px;"> Ajouter au panier
                 </a>
+                <?php endif; ?>
             </div>
             
             <div class="mt-4">
