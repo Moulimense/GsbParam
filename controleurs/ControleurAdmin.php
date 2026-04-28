@@ -41,7 +41,7 @@ class ControleurAdmin
         if (!isset($_SESSION['admin'])) {
             $this->connexion();
         } else {
-            $lesProduits = $this->modeleFront->getTousLes_produits();
+            $lesProduits = $this->modeleFront->getTousLesProduits();
             include("vues/v_gestionProduits.php");
         }
     }
