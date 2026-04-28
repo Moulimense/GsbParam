@@ -50,7 +50,11 @@ class ControleurGererPanier
 			$lesProduitsDuPanier = $this->modeleFront->getLesProduitsDuTableau($desIdProduit);
 			include("vues/v_panier.php");
 		} else {
-			$message = "Le panier est vide !";
+			if (!isset($_SESSION['idClient'])) {
+				$message = "Le panier est vide ! Vous devez vous connecter/inscrire pour pouvoir commander des articles.";
+			} else {
+				$message = "Le panier est vide !";
+			}
 			include("vues/v_message.php");
 		}
 	}
@@ -71,7 +75,8 @@ class ControleurGererPanier
 	 *
 	 * @param string $idProduit
 	 */
-	public function retirerDuPanier($idProduit) {
+	public function retirerDuPanier($idProduit)
+	{
 		if (isset($_SESSION['produits'][$idProduit])) {
 			// On supprime la clé du tableau associatif
 			unset($_SESSION['produits'][$idProduit]);
@@ -165,14 +170,14 @@ class ControleurGererPanier
 
 		if ($this->nbProduitsDuPanier() > 0) {
 			$client = $this->modeleFront->getInfosClient($_SESSION['idClient']);
-			
+
 			if ($client) {
 				$nom = $client->nom . ' ' . $client->prenom;
 				$rue = $client->rue;
 				$ville = $client->ville;
 				$cp = $client->cp;
 				$mail = $client->mail;
-				
+
 				$lesProduitsQte = $this->getLesProduitsQteDuPanier();
 				$exec = $this->modeleFront->creerCommande($nom, $rue, $cp, $ville, $mail, $lesProduitsQte);
 
