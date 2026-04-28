@@ -30,5 +30,9 @@ foreach( $lesProduitsDuPanier as $unProduit)
 ?>
 </div>
 <div class="contenuCentre">
+<?php if (isset($_SESSION['idClient'])): ?>
 <a href="index.php?uc=gererPanier&action=passerCommande"><button type="button" class="btn btn-primary">Commander</button></a>
+<?php else: ?>
+<p class="text-danger fw-bold">Veuillez vous connecter pour passer commande.</p>
+<?php endif; ?>
 </div>

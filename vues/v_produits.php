@@ -22,8 +22,10 @@ foreach( $lesProduits as $unProduit)
 			</div>
 			<div class="imgCard">
 				<a href="index.php?uc=voirProduits&action=voirDetails&produit=<?= $id ?>" class="btn btn-outline-info btn-sm m-1">En savoir plus</a>
+				<?php if (isset($_SESSION['idClient'])): ?>
 				<a href="index.php?uc=gererPanier&produit=<?= $id ?>&action=ajouterAuPanier"> 
 				<img src="assets/images/mettrepanier.png" title="Ajouter au panier" alt="Mettre au panier"> </a>
+				<?php endif; ?>
 			</div>
 
 	</div>
