@@ -79,33 +79,43 @@
         <h3 class="mb-4">Avis des clients</h3>
 
         <?php if (isset($_SESSION['idClient'])): ?>
-            <div class="card mb-4 bg-light">
-                <div class="card-body">
-                    <h5 class="card-title">Laisser un avis</h5>
-                    <form action="index.php?uc=voirProduits&action=ajouterAvis" method="POST">
-                        <input type="hidden" name="idProduit" value="<?= $unProduit->id ?>">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Votre note :</label>
-                            <div class="rating">
-                                <?php for($i=5; $i>=1; $i--): ?>
-                                    <input type="radio" name="note" value="<?= $i ?>" id="star<?= $i ?>" required>
-                                    <label for="star<?= $i ?>">★</label>
-                                <?php endfor; ?>
-                            </div>
-                            <style>
-                                .rating { direction: rtl; display: inline-block; }
-                                .rating input { display: none; }
-                                .rating label { color: #ddd; font-size: 2em; padding: 0; cursor: pointer; }
-                                .rating input:checked ~ label, .rating label:hover, .rating label:hover ~ label { color: #ffc107; }
-                            </style>
-                        </div>
-                        <div class="mb-3">
-                            <label for="commentaire" class="form-label fw-bold">Votre commentaire (optionnel) :</label>
-                            <textarea name="commentaire" id="commentaire" class="form-control" rows="3"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Valider mon avis</button>
-                    </form>
+            <?php if (isset($aDejaDonneAvis) && $aDejaDonneAvis): ?>
+                <div class="alert alert-success" role="alert">
+                    <i class="bi bi-check-circle"></i> Vous avez déjà donné votre avis sur ce produit. Merci de votre contribution !
                 </div>
+            <?php else: ?>
+                <div class="card mb-4 bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Laisser un avis</h5>
+                        <form action="index.php?uc=voirProduits&action=ajouterAvis" method="POST">
+                            <input type="hidden" name="idProduit" value="<?= $unProduit->id ?>">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Votre note :</label>
+                                <div class="rating">
+                                    <?php for($i=5; $i>=1; $i--): ?>
+                                        <input type="radio" name="note" value="<?= $i ?>" id="star<?= $i ?>">
+                                        <label for="star<?= $i ?>">★</label>
+                                    <?php endfor; ?>
+                                </div>
+                                <style>
+                                    .rating { direction: rtl; display: inline-block; }
+                                    .rating input { display: none; }
+                                    .rating label { color: #ddd; font-size: 2em; padding: 0; cursor: pointer; }
+                                    .rating input:checked ~ label, .rating label:hover, .rating label:hover ~ label { color: #ffc107; }
+                                </style>
+                            </div>
+                            <div class="mb-3">
+                                <label for="commentaire" class="form-label fw-bold">Votre commentaire (optionnel) :</label>
+                                <textarea name="commentaire" id="commentaire" class="form-control" rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Valider mon avis</button>
+                        </form>
+                    </div>
+                </div>
+            <?php endif; ?>
+        <?php else: ?>
+            <div class="alert alert-info" role="alert">
+                <i class="bi bi-info-circle"></i> Vous devez être connecté pour laisser un avis. <a href="index.php?uc=connexion&action=demanderConnexion" class="alert-link">Se connecter ou s'inscrire</a>.
             </div>
         <?php endif; ?>
 

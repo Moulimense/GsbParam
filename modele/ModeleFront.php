@@ -266,6 +266,18 @@ class ModeleFront extends Modele
 			return false;
 		}
 	}
+	public function aDejaDonneAvis($idProduit, $idClient)
+	{
+		$req = "SELECT COUNT(*) AS nb FROM avis WHERE idProduit = ? AND idClient = ?";
+		try {
+			$res = $this->executerRequete($req, array($idProduit, $idClient));
+			$ligne = $res->fetch(PDO::FETCH_OBJ);
+			return ($ligne->nb > 0);
+		} catch (PDOException $e) {
+			return false;
+		}
+	}
+
 	public function ajouterAvis($idProduit, $idClient, $note, $commentaire)
 	{
 		try {
