@@ -117,10 +117,42 @@ class ControleurVoirProduits
 
         if ($unProduit) {
             $produitsAssocies = $this->modeleFront->getProduitsAssocies($unProduit->idCategorie, $idProduit, 4);
+            $lesAvis = $this->modeleFront->getLesAvisProduit($idProduit);
             include("vues/v_choixCategorie.php");
             include("vues/v_detailsProduit.php");
         } else {
             $this->voirProduits();
+        }
+    }
+
+    public function ajouterAvis()
+    {
+        if (!isset($_SESSION['idClient'])) {
+            header('Location: index.php?uc=connexion&action=demanderConnexion');
+            exit();
+        }
+
+        $idProduit = $_POST['idProduit'] ?? null;
+        $note = (int)($_POST['note'] ?? 0);
+        $commentaire = htmlspecialchars($_POST['commentaire'] ?? '');
+
+        if ($idProduit && $note >= 1 && $note <= 5) {
+            $this->modeleFront->ajouterAvis($idProduit, $_SESSION['idClient'], $note, $commentaire);
+            $this->modeleFront->mettreAJourNoteProduit($idProduit);
+            
+            $message = "Votre avis a bien été enregistré. Merci !";
+            
+            $lesCategories = $this->modeleFront->getLesCategories();
+            $unProduit = $this->modeleFront->getInfosProduit($idProduit);
+            $produitsAssocies = $this->modeleFront->getProduitsAssocies($unProduit->idCategorie, $idProduit, 4);
+            $lesAvis = $this->modeleFront->getLesAvisProduit($idProduit);
+            
+            include("vues/v_choixCategorie.php");
+            include("vues/v_message.php");
+            include("vues/v_detailsProduit.php");
+        } else {
+            header('Location: index.php');
+            exit();
         }
     }
 

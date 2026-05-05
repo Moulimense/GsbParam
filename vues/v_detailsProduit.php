@@ -74,6 +74,72 @@
         </div>
     </div>
 
+    <!-- Reviews Section -->
+    <div class="row mt-5 pt-4 border-top">
+        <h3 class="mb-4">Avis des clients</h3>
+
+        <?php if (isset($_SESSION['idClient'])): ?>
+            <div class="card mb-4 bg-light">
+                <div class="card-body">
+                    <h5 class="card-title">Laisser un avis</h5>
+                    <form action="index.php?uc=voirProduits&action=ajouterAvis" method="POST">
+                        <input type="hidden" name="idProduit" value="<?= $unProduit->id ?>">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Votre note :</label>
+                            <div class="rating">
+                                <?php for($i=5; $i>=1; $i--): ?>
+                                    <input type="radio" name="note" value="<?= $i ?>" id="star<?= $i ?>" required>
+                                    <label for="star<?= $i ?>">★</label>
+                                <?php endfor; ?>
+                            </div>
+                            <style>
+                                .rating { direction: rtl; display: inline-block; }
+                                .rating input { display: none; }
+                                .rating label { color: #ddd; font-size: 2em; padding: 0; cursor: pointer; }
+                                .rating input:checked ~ label, .rating label:hover, .rating label:hover ~ label { color: #ffc107; }
+                            </style>
+                        </div>
+                        <div class="mb-3">
+                            <label for="commentaire" class="form-label fw-bold">Votre commentaire (optionnel) :</label>
+                            <textarea name="commentaire" id="commentaire" class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Valider mon avis</button>
+                    </form>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <div class="avis-list">
+            <?php if(!empty($lesAvis)): ?>
+                <?php foreach($lesAvis as $avis): ?>
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="card-subtitle text-muted mb-0">
+                                    <i class="bi bi-person-circle"></i> <?= htmlspecialchars($avis->prenom . ' ' . $avis->nom) ?>
+                                </h6>
+                                <small class="text-muted"><?= date('d/m/Y', strtotime($avis->dateAvis)) ?></small>
+                            </div>
+                            <div class="text-warning mb-2" style="font-size: 1.1em;">
+                                <?php 
+                                for($i=1; $i<=5; $i++) {
+                                    if($i <= $avis->note) echo "★";
+                                    else echo "☆";
+                                }
+                                ?>
+                            </div>
+                            <?php if(!empty($avis->commentaire)): ?>
+                                <p class="card-text"><?= nl2br(htmlspecialchars($avis->commentaire)) ?></p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p class="text-muted fst-italic">Aucun avis pour ce produit pour le moment. Soyez le premier à donner votre avis !</p>
+            <?php endif; ?>
+        </div>
+    </div>
+
     <!-- Cross Selling Section -->
     <?php if(!empty($produitsAssocies)): ?>
     <div class="row mt-5 pt-4 border-top">

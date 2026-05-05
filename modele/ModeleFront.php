@@ -266,5 +266,48 @@ class ModeleFront extends Modele
 			return false;
 		}
 	}
+	public function ajouterAvis($idProduit, $idClient, $note, $commentaire)
+	{
+		try {
+			$req = "INSERT INTO avis (idProduit, idClient, note, commentaire, dateAvis) VALUES (?, ?, ?, ?, NOW())";
+			$this->executerRequete($req, array($idProduit, $idClient, $note, $commentaire));
+			return true;
+		} catch (PDOException $e) {
+			return false;
+		}
+	}
+
+	public function getLesAvisProduit($idProduit)
+	{
+		try {
+			$req = "SELECT a.id, a.note, a.commentaire, a.dateAvis, c.prenom, c.nom 
+					FROM avis a 
+					JOIN client c ON a.idClient = c.id 
+					WHERE a.idProduit = ? 
+					ORDER BY a.dateAvis DESC";
+			$res = $this->executerRequete($req, array($idProduit));
+			return $res->fetchAll(PDO::FETCH_OBJ);
+		} catch (PDOException $e) {
+			return array();
+		}
+	}
+
+	public function mettreAJourNoteProduit($idProduit)
+	{
+		try {
+			$reqAvis = "SELECT AVG(note) as moyenne FROM avis WHERE idProduit = ?";
+			$resAvis = $this->executerRequete($reqAvis, array($idProduit));
+			$ligne = $resAvis->fetch(PDO::FETCH_OBJ);
+			
+			if ($ligne && $ligne->moyenne !== null) {
+				$moyenne = round($ligne->moyenne, 1);
+				$reqUpdate = "UPDATE produit SET noteClient = ? WHERE id = ?";
+				$this->executerRequete($reqUpdate, array($moyenne, $idProduit));
+			}
+			return true;
+		} catch (PDOException $e) {
+			return false;
+		}
+	}
 }
 ?>
