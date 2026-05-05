@@ -35,8 +35,12 @@
             </div>
 
             <div class="mb-4">
-                <?php if($unProduit->stock > 0): ?>
-                    <span class="text-success fw-bold"><i class="bi bi-check-circle"></i> En stock (<?= $unProduit->stock ?> disponibles)</span>
+                <?php 
+                $seuil = defined('SEUIL_ALERTE_STOCK') ? SEUIL_ALERTE_STOCK : 5;
+                if($unProduit->stock > $seuil): ?>
+                    <span class="text-success fw-bold"><i class="bi bi-check-circle"></i> En stock</span>
+                <?php elseif($unProduit->stock > 0): ?>
+                    <span class="text-warning fw-bold"><i class="bi bi-exclamation-triangle"></i> Attention, plus que <?= $unProduit->stock ?> en stock</span>
                 <?php else: ?>
                     <span class="text-danger fw-bold"><i class="bi bi-x-circle"></i> Rupture de stock</span>
                 <?php endif; ?>
