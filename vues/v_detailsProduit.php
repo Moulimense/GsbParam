@@ -17,16 +17,20 @@
             <div class="mb-4">
                 <h3 class="text-success fw-bold"><?= number_format($unProduit->prix, 2) ?> €</h3>
                 <div class="d-flex align-items-center mt-2">
-                    <span class="text-warning me-2" style="font-size: 1.2em;">
-                        <?php 
-                        $stars = round($unProduit->noteClient);
-                        for($i=1; $i<=5; $i++) {
-                            if($i <= $stars) echo "★";
-                            else echo "☆";
-                        }
-                        ?>
-                    </span>
-                    <span class="text-muted">(Note client: <?= $unProduit->noteClient ?>/5)</span>
+                    <?php if (empty($unProduit->noteClient)): ?>
+                        <span class="text-muted fst-italic">Aucune note moyenne pour ce produit</span>
+                    <?php else: ?>
+                        <span class="text-warning me-2" style="font-size: 1.2em;">
+                            <?php 
+                            $stars = round($unProduit->noteClient);
+                            for($i=1; $i<=5; $i++) {
+                                if($i <= $stars) echo "★";
+                                else echo "☆";
+                            }
+                            ?>
+                        </span>
+                        <span class="text-muted">(Note client: <?= $unProduit->noteClient ?>/5)</span>
+                    <?php endif; ?>
                 </div>
             </div>
 
