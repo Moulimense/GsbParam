@@ -40,6 +40,10 @@ class Routeur
                 $this->ctrlVoirProduits->voirProduits();
                 break;
 
+            case 'mentionsLegales':
+                include("vues/v_mentionsLegales.php");
+                break;
+
             case 'connexion':
                 switch ($action) {
                     case 'demanderInscription':
