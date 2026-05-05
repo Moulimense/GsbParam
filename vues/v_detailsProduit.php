@@ -48,9 +48,23 @@
 
             <div class="mb-4">
                 <?php if (isset($_SESSION['idClient'])): ?>
-                <a href="index.php?uc=gererPanier&produit=<?= $unProduit->id ?>&action=ajouterAuPanier" class="btn btn-success btn-lg <?= $unProduit->stock <= 0 ? 'disabled' : '' ?>">
-                    <img src="assets/images/mettrepanier.png" title="Ajouter au panier" alt="Mettre au panier" style="width:24px; margin-right:8px;"> Ajouter au panier
-                </a>
+                    <?php if($unProduit->stock > 0): ?>
+                        <form action="index.php?uc=gererPanier&produit=<?= $unProduit->id ?>&action=ajouterAuPanier" method="POST" class="d-flex align-items-center">
+                            <label for="quantite" class="me-2 fw-bold">Quantité :</label>
+                            <select name="quantite" id="quantite" class="form-select me-3" style="width: 80px;">
+                                <?php for($i=1; $i<=$unProduit->stock; $i++): ?>
+                                    <option value="<?= $i ?>"><?= $i ?></option>
+                                <?php endfor; ?>
+                            </select>
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <img src="assets/images/mettrepanier.png" title="Ajouter au panier" alt="Mettre au panier" style="width:24px; margin-right:8px;"> Ajouter au panier
+                            </button>
+                        </form>
+                    <?php else: ?>
+                        <button class="btn btn-success btn-lg disabled">
+                            <img src="assets/images/mettrepanier.png" title="Ajouter au panier" alt="Mettre au panier" style="width:24px; margin-right:8px;"> Ajouter au panier
+                        </button>
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
             

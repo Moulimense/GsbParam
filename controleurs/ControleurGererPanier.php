@@ -99,7 +99,8 @@ class ControleurGererPanier
 		$produit = $this->modeleFront->getInfosProduit($idProduit);
 		$stock = $produit ? $produit->stock : 0;
 		$qteActuelle = isset($_SESSION['produits'][$idProduit]) ? $_SESSION['produits'][$idProduit] : 0;
-		$qteDesiree = $qteActuelle + 1;
+		$quantiteAjoutee = isset($_POST['quantite']) ? (int)$_POST['quantite'] : 1;
+		$qteDesiree = $qteActuelle + $quantiteAjoutee;
 
 		if ($qteDesiree > $stock) {
 			$msgErreurs[] = "Erreur : La quantité demandée dépasse le stock disponible (" . $stock . " restant en stock).";
