@@ -131,11 +131,35 @@ class Routeur
                     case 'ajouterProduit':
                         $this->ctrlAdmin->ajouterProduit();
                         break;
+                    case 'ajouterNouvelleCategorie':
+                        $this->ctrlAdmin->ajouterNouvelleCategorie();
+                        break;
+                    case 'supprimerCategories':
+                        $this->ctrlAdmin->supprimerCategories();
+                        break;
+                    case 'modifierCategorie':
+                        $this->ctrlAdmin->modifierCategorie();
+                        break;
                     case 'modifierProduit':
                         $this->ctrlAdmin->modifierProduit();
                         break;
                     case 'supprimer':
                         $this->ctrlAdmin->supprimer();
+                        break;
+                    case 'gestionStock':
+                        $this->ctrlAdmin->gestionStock();
+                        break;
+                    case 'gestionAssociations':
+                        $this->ctrlAdmin->gestionAssociations();
+                        break;
+                    case 'gestionCommandes':
+                        $this->ctrlAdmin->gestionCommandes();
+                        break;
+                    case 'articlesCommande':
+                        $this->ctrlAdmin->articlesCommande();
+                        break;
+                    case 'modifierEtatCommande':
+                        $this->ctrlAdmin->modifierEtatCommande();
                         break;
                     case 'deconnexion':
                         $this->ctrlAdmin->deconnexion();

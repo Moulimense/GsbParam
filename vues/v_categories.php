@@ -18,4 +18,3 @@ foreach ((array)$lesCategories as $uneCategorie)
 ?>
 
 </ul>
-

@@ -20,7 +20,7 @@ abstract class Modele{
  * @return les objets résultants de la requête
  */
 protected function executerRequete($sql, $params=null){
-if ($params == null)
+if (empty($params))
 {
     $result=$this->getBdd()->query($sql); // exécution directe
 }
@@ -43,7 +43,7 @@ private function getBdd() {
         $this->bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $this->bdd;
     } catch (PDOException $e) {
-        print "Erreur de connexion PDO ";
+        print "Erreur de connexion PDO : " . $e->getMessage();
         die();
     }
 }

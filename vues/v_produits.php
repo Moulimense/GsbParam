@@ -2,7 +2,14 @@
 if (isset($titre)) 
 	echo "<h2>" . $titre . "</h2>";
 else 
-	echo "<h2>Nos produits</h2>";?>
+	echo "<h2>Nos produits</h2>";
+
+if (isset($messageSucces) && $messageSucces): ?>
+    <div class="alert alert-success alert-dismissible fade show container mt-2" role="alert">
+        <i class="bi bi-check-circle-fill"></i> <?= htmlspecialchars($messageSucces) ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
 <div id="produits">
 <?php
 // parcours du tableau contenant les produits à afficher
