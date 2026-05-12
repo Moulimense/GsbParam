@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : mar. 12 mai 2026 à 08:18
+-- Généré le : mar. 12 mai 2026 à 09:08
 -- Version du serveur : 11.5.2-MariaDB
 -- Version de PHP : 8.3.14
 
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `avis` (
   PRIMARY KEY (`id`),
   KEY `fk_avis_produit` (`idProduit`),
   KEY `fk_avis_client` (`idClient`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `avis`
@@ -72,7 +72,8 @@ INSERT INTO `avis` (`id`, `idProduit`, `idClient`, `note`, `commentaire`, `dateA
 (3, 'p01', 10, 5, 'Protection parfaite pour ma peau sensible, je recommande.', '2026-04-01'),
 (4, 'f03', 11, 3, 'Efficace mais la texture est un peu grasse à mon goût.', '2026-04-05'),
 (5, 'c03', 14, 4, 'Super produit !', '2026-05-05'),
-(6, 'c04', 14, 1, '', '2026-05-05');
+(6, 'c04', 14, 1, '', '2026-05-05'),
+(7, 'f07', 14, 3, 'moyen', '2026-05-12');
 
 -- --------------------------------------------------------
 
@@ -158,7 +159,9 @@ INSERT INTO `commande` (`id`, `dateCommande`, `nomPrenomClient`, `adresseRueClie
 ('1101461668', '2026-04-28', 'Test TEST', '25 rue du test', '75000', 'Orleans', 'test@gmail.com', NULL),
 ('1101461669', '2026-04-28', 'Test TEST', '25 rue du test', '75000', 'Orleans', 'test@gmail.com', NULL),
 ('1101461670', '2026-04-28', 'Test TEST', '25 rue du test', '75000', 'Orleans', 'test@gmail.com', NULL),
-('1101461671', '2026-04-28', 'Test TEST', '25 rue du test', '75000', 'Orleans', 'test@gmail.com', NULL);
+('1101461671', '2026-04-28', 'Test TEST', '25 rue du test', '75000', 'Orleans', 'test@gmail.com', NULL),
+('1101461672', '2026-05-12', 'test2 Test2', '7 rue d\'orleans', '45000', 'Orleans', 'test2@gmail.com', NULL),
+('1101461673', '2026-05-12', 'test2 Test2', '7 rue d\'orleans', '45000', 'Orleans', 'test2@gmail.com', NULL);
 
 -- --------------------------------------------------------
 
@@ -190,7 +193,10 @@ INSERT INTO `contenir` (`idCommande`, `idProduit`, `quantite`) VALUES
 ('1101461668', 'c01', 16),
 ('1101461669', 'c01', 14),
 ('1101461670', 'c01', 15),
-('1101461671', 'c01', 1);
+('1101461671', 'c01', 1),
+('1101461672', 'c03', 1),
+('1101461673', 'c03', 1),
+('1101461673', 'c04', 6);
 
 -- --------------------------------------------------------
 
@@ -218,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `produit` (
 --
 
 INSERT INTO `produit` (`id`, `description`, `prix`, `image`, `idCategorie`, `marque`, `contenance`, `stock`, `noteClient`) VALUES
-('c01', 'Laino Shampooing Douche au Thé Vert BIO', 4.00, 'assets/images/laino-shampooing-douche-au-the-vert-bio-200ml.png', 'CH', 'Laino', '200 ml', 15, 4.5),
+('c01', 'Laino Shampooing Douche au Thé Vert BIO', 4.00, 'assets/images/laino-shampooing-douche-au-the-vert-bio-200ml.png', 'CH', 'Laino', '200 ml', 0, 4.5),
 ('c02', 'Klorane fibres de lin baume après shampooing', 10.80, 'assets/images/klorane-fibres-de-lin-baume-apres-shampooing-150-ml.jpg', 'CH', 'Klorane', '150 ml', 5, 4.8),
 ('c03', 'Weleda Kids 2in1 Shower & Shampoo Orange fruitée', 4.00, 'assets/images/weleda-kids-2in1-shower-shampoo-orange-fruitee-150-ml.jpg', 'CH', 'Weleda', '150 ml', 20, 4),
 ('c04', 'Weleda Kids 2in1 Shower & Shampoo vanille douce', 4.00, 'assets/images/weleda-kids-2in1-shower-shampoo-vanille-douce-150-ml.jpg', 'CH', 'Weleda', '150 ml', 18, 1),
@@ -231,7 +237,7 @@ INSERT INTO `produit` (`id`, `description`, `prix`, `image`, `idCategorie`, `mar
 ('f04', 'Futuro sport stabilisateur pour cheville', 26.50, 'assets/images/futuro-sport-stabilisateur-pour-cheville-deluxe-attelle-cheville.png', 'FO', 'Futuro', 'Taille Unique', 18, 3.5),
 ('f05', 'Microlife pèse-personne électronique weegschaal', 63.00, 'assets/images/microlife-pese-personne-electronique-weegschaal-ws80.jpg', 'FO', 'Microlife', 'Unité', 27, 4.5),
 ('f06', 'Melapi Miel Thym Liquide 500g', 6.50, 'assets/images/melapi-miel-thym-liquide-500g.jpg', 'FO', 'Melapi', '500 g', 10, 4.7),
-('f07', 'Meli Meliflor Pollen 200g', 8.60, 'assets/images/melapi-pollen-250g.jpg', 'FO', 'Meli', '200 g', 23, 4.3),
+('f07', 'Meli Meliflor Pollen 200g', 8.60, 'assets/images/melapi-pollen-250g.jpg', 'FO', 'Meli', '200 g', 23, 3),
 ('p01', 'Avène solaire Spray très haute protection', 22.00, 'assets/images/avene-solaire-spray-tres-haute-protection-spf50200ml.png', 'PS', 'Avène', '200 ml', 8, 4.6),
 ('p02', 'Mustela Solaire Lait très haute Protection', 17.50, 'assets/images/mustela-solaire-lait-tres-haute-protection-spf50-100ml.jpg', 'PS', 'Mustela', '100 ml', 34, 3.8),
 ('p03', 'Isdin Eryfotona aAK fluid', 29.00, 'assets/images/isdin-eryfotona-aak-fluid-100-50ml.jpg', 'PS', 'Isdin', '50 ml', 14, 4.6),
@@ -239,6 +245,32 @@ INSERT INTO `produit` (`id`, `description`, `prix`, `image`, `idCategorie`, `mar
 ('p05', 'Nuxe Sun Huile Lactée Capillaire Protectrice', 15.00, 'assets/images/nuxe-sun-huile-lactee-capillaire-protectrice-100ml.png', 'PS', 'Nuxe Sun', '100 ml', 29, 3.6),
 ('p06', 'Uriage Bariésun stick lèvres SPF30 4g', 5.65, 'assets/images/uriage-bariesun-stick-levres-spf30-4g.jpg', 'PS', 'Uriage', '4 g', 9, 4),
 ('p07', 'Bioderma Cicabio creme SPF50+ 30ml', 13.70, 'assets/images/bioderma-cicabio-creme-spf50-30ml.png', 'PS', 'Bioderma', '30 ml', 12, 4.7);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `promotion`
+--
+
+DROP TABLE IF EXISTS `promotion`;
+CREATE TABLE IF NOT EXISTS `promotion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idProduit` varchar(5) NOT NULL,
+  `dateDebut` date NOT NULL,
+  `dateFin` date NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idProduit` (`idProduit`)
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+
+--
+-- Déchargement des données de la table `promotion`
+--
+
+INSERT INTO `promotion` (`id`, `idProduit`, `dateDebut`, `dateFin`) VALUES
+(6, 'c02', '2026-05-12', '2026-05-12'),
+(5, 'c03', '2026-12-04', '2026-12-05'),
+(7, 'c06', '2026-05-12', '2026-05-13'),
+(8, 'f02', '2026-06-01', '2026-06-30');
 
 --
 -- Contraintes pour les tables déchargées

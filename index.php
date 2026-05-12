@@ -13,6 +13,7 @@
 
  */
 session_start();
+ob_start();
 require 'controleurs/Routeur.php';
 include("vues/v_entete.html") ;
 include("vues/v_bandeau.html") ;

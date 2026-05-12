@@ -451,4 +451,87 @@ class ControleurAdmin
         header("Location: index.php?uc=administrer&action=gestionCommandes");
         exit();
     }
+
+    /**
+     * Gère l'affichage et la suppression des promotions
+     */
+    public function gestionPromotions()
+    {
+        if (!isset($_SESSION['admin'])) {
+            $this->connexion();
+            return;
+        }
+
+        $messageSucces = null;
+        if (isset($_SESSION['message_succes'])) {
+            $messageSucces = $_SESSION['message_succes'];
+            unset($_SESSION['message_succes']);
+        }
+
+        $this->modeleBack->nettoyerPromotionsExpirees();
+        $lesPromotions = $this->modeleBack->getLesPromotions();
+        $lesProduits = $this->modeleFront->getTousLesProduits();
+        include("vues/v_gestionPromotions.php");
+    }
+
+    /**
+     * Traite l'ajout d'une nouvelle promotion
+     */
+    public function ajouterPromotion()
+    {
+        if (!isset($_SESSION['admin'])) {
+            $this->connexion();
+            return;
+        }
+
+        $idProduit = $_POST['produit'] ?? null;
+        $dateDebut = $_POST['dateDebut'] ?? null;
+        $dateFin = $_POST['dateFin'] ?? null;
+
+        if (!$idProduit || !$dateDebut || !$dateFin) {
+            $msgErreurs[] = "Tous les champs sont obligatoires.";
+        } else {
+            $aujourdHui = date('Y-m-d');
+            if ($dateDebut < $aujourdHui) {
+                $msgErreurs[] = "La date de début ne peut pas être inférieure à la date du jour.";
+            } elseif ($dateFin < $dateDebut) {
+                $msgErreurs[] = "La date de fin ne peut pas être inférieure à la date de début.";
+            } elseif ($this->modeleBack->promotionExiste($idProduit, $dateDebut, $dateFin)) {
+                $msgErreurs[] = "Une promotion existe déjà pour ce produit pendant cette période (chevauchement de dates).";
+            } else {
+                $this->modeleBack->ajouterPromotion($idProduit, $dateDebut, $dateFin);
+                $_SESSION['message_succes'] = "La programmation a été ajoutée avec succès.";
+            }
+        }
+
+        if (!empty($msgErreurs)) {
+            $lesPromotions = $this->modeleBack->getLesPromotions();
+            $lesProduits = $this->modeleFront->getTousLesProduits();
+            include("vues/v_gestionPromotions.php"); // Will include v_erreurs.php inside
+        } else {
+            header('Location: index.php?uc=administrer&action=gestionPromotions');
+            exit();
+        }
+    }
+
+    /**
+     * Supprime une promotion
+     */
+    public function supprimerPromotion()
+    {
+        if (!isset($_SESSION['admin'])) {
+            $this->connexion();
+            return;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $idPromotion = $_POST['promotion'] ?? null;
+            if ($idPromotion) {
+                $this->modeleBack->supprimerPromotion($idPromotion);
+                $_SESSION['message_succes'] = "La programmation a été supprimée avec succès.";
+            }
+        }
+        header('Location: index.php?uc=administrer&action=gestionPromotions');
+        exit();
+    }
 }

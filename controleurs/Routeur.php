@@ -161,6 +161,15 @@ class Routeur
                     case 'modifierEtatCommande':
                         $this->ctrlAdmin->modifierEtatCommande();
                         break;
+                    case 'gestionPromotions':
+                        $this->ctrlAdmin->gestionPromotions();
+                        break;
+                    case 'ajouterPromotion':
+                        $this->ctrlAdmin->ajouterPromotion();
+                        break;
+                    case 'supprimerPromotion':
+                        $this->ctrlAdmin->supprimerPromotion();
+                        break;
                     case 'deconnexion':
                         $this->ctrlAdmin->deconnexion();
                         break;
