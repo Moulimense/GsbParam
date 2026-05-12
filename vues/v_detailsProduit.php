@@ -10,8 +10,20 @@
             <h2 class="mb-3"><?= $unProduit->description ?></h2>
             
             <div class="mb-3">
-                <span class="badge bg-primary text-white p-2" style="font-size: 1.1em;"><?= $unProduit->marque ?></span>
-                <span class="badge bg-secondary text-white p-2 ms-2" style="font-size: 1.1em;">Contenance: <?= $unProduit->contenance ?></span>
+                <?php 
+                $nomCategorie = 'Inconnue';
+                foreach($lesCategories as $cat) {
+                    if($cat->id == $unProduit->idCategorie) {
+                        $nomCategorie = $cat->libelle;
+                        break;
+                    }
+                }
+                ?>
+                <span class="badge bg-primary text-white p-2" style="font-size: 1.1em;"><?= htmlspecialchars($nomCategorie) ?></span>
+                <?php if (!empty($unProduit->marque)): ?>
+                    <span class="badge bg-info text-dark p-2 ms-2" style="font-size: 1.1em;"><?= htmlspecialchars($unProduit->marque) ?></span>
+                <?php endif; ?>
+                <span class="badge bg-secondary text-white p-2 ms-2" style="font-size: 1.1em;">Contenance: <?= htmlspecialchars($unProduit->contenance) ?></span>
             </div>
 
             <div class="mb-4">
@@ -29,7 +41,7 @@
                             }
                             ?>
                         </span>
-                        <span class="text-muted">(Note client: <?= $unProduit->noteClient ?>/5)</span>
+                        <span class="text-muted">(Note client: <?= $unProduit->noteClient ?>/5 - basé sur <?= count($lesAvis) ?> avis)</span>
                     <?php endif; ?>
                 </div>
             </div>
@@ -60,16 +72,12 @@
                                 <img src="assets/images/mettrepanier.png" title="Ajouter au panier" alt="Mettre au panier" style="width:24px; margin-right:8px;"> Ajouter au panier
                             </button>
                         </form>
-                    <?php else: ?>
-                        <button class="btn btn-success btn-lg disabled">
-                            <img src="assets/images/mettrepanier.png" title="Ajouter au panier" alt="Mettre au panier" style="width:24px; margin-right:8px;"> Ajouter au panier
-                        </button>
                     <?php endif; ?>
                 <?php endif; ?>
             </div>
             
             <div class="mt-4">
-                <a href="javascript:history.back()" class="btn btn-outline-secondary">← Retour au catalogue</a>
+                <a href="index.php?uc=voirProduits&action=nosProduits" class="btn btn-outline-secondary">← Retour au catalogue</a>
             </div>
         </div>
     </div>

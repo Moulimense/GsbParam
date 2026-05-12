@@ -338,7 +338,7 @@ class ModeleFront extends Modele
 			$reqAvis = "SELECT AVG(note) as moyenne FROM avis WHERE idProduit = ?";
 			$resAvis = $this->executerRequete($reqAvis, array($idProduit));
 			$ligne = $resAvis->fetch(PDO::FETCH_OBJ);
-			
+
 			if ($ligne && $ligne->moyenne !== null) {
 				$moyenne = round($ligne->moyenne, 1);
 				$reqUpdate = "UPDATE produit SET noteClient = ? WHERE id = ?";
@@ -353,7 +353,8 @@ class ModeleFront extends Modele
 	/**
 	 * Nettoie les promotions dont la date de fin est dépassée
 	 */
-	public function nettoyerPromotionsExpirees() {
+	public function nettoyerPromotionsExpirees()
+	{
 		try {
 			$req = "DELETE FROM promotion WHERE dateFin < CURDATE()";
 			$this->executerRequete($req);
@@ -366,7 +367,8 @@ class ModeleFront extends Modele
 	/**
 	 * Retourne les produits actuellement en promotion
 	 */
-	public function getProduitsEnPromotion() {
+	public function getProduitsEnPromotion()
+	{
 		try {
 			$req = "SELECT p.id, p.description, p.prix, p.image, p.idCategorie, p.marque, pr.dateFin
 					FROM produit p
