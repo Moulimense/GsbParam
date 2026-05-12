@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : mar. 05 mai 2026 à 07:15
+-- Généré le : mar. 12 mai 2026 à 08:18
 -- Version du serveur : 11.5.2-MariaDB
 -- Version de PHP : 8.3.14
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `administrateur` (
 --
 
 INSERT INTO `administrateur` (`id`, `nom`, `mdp`) VALUES
-('1', 'LeBoss', 'TheBest$147#'),
+('1', 'LeBoss', '$2y$12$wg3Tqy0jQNELG5johIHD4uORKFiFf2z4wDp2CZpRorPygBvdJXqWC'),
 ('2', 'LeChefProjet', 'NearlyTheBest$280@');
 
 -- --------------------------------------------------------
