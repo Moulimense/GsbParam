@@ -143,6 +143,7 @@ CREATE TABLE IF NOT EXISTS `commande` (
   `villeClient` varchar(50) DEFAULT NULL,
   `mailClient` varchar(50) DEFAULT NULL,
   `idClient` int(11) DEFAULT NULL,
+  `etat` varchar(50) DEFAULT 'En attente',
   PRIMARY KEY (`id`),
   KEY `fk_commande_client` (`idClient`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -249,6 +250,29 @@ INSERT INTO `produit` (`id`, `description`, `prix`, `image`, `idCategorie`, `mar
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `associer`
+--
+
+DROP TABLE IF EXISTS `associer`;
+CREATE TABLE IF NOT EXISTS `associer` (
+  `idProduit` varchar(5) NOT NULL,
+  `idProduitAssocie` varchar(5) NOT NULL,
+  PRIMARY KEY (`idProduit`,`idProduitAssocie`),
+  KEY `fk_associer_p1` (`idProduit`),
+  KEY `fk_associer_p2` (`idProduitAssocie`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `associer`
+--
+
+INSERT INTO `associer` (`idProduit`, `idProduitAssocie`) VALUES
+('c01', 'c02'),
+('f01', 'f03');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `promotion`
 --
 
@@ -301,6 +325,13 @@ ALTER TABLE `contenir`
 --
 ALTER TABLE `produit`
   ADD CONSTRAINT `produit_ibfk_1` FOREIGN KEY (`idCategorie`) REFERENCES `categorie` (`id`);
+
+--
+-- Contraintes pour la table `associer`
+--
+ALTER TABLE `associer`
+  ADD CONSTRAINT `associer_ibfk_1` FOREIGN KEY (`idProduit`) REFERENCES `produit` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `associer_ibfk_2` FOREIGN KEY (`idProduitAssocie`) REFERENCES `produit` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

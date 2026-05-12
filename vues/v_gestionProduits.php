@@ -37,7 +37,7 @@
                     </div>
                     
                     <div class="row">
-                        <div class="col-md-12 mb-3">
+                        <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">Catégorie</label>
                             <select class="form-select" name="idCategorie" required>
                                 <option value="">-- Sélectionner une catégorie --</option>
@@ -48,6 +48,11 @@
                                     }
                                 } ?>
                             </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Stock initial</label>
+                            <input type="number" min="0" class="form-control" name="stock" required 
+                                   value="<?= isset($leProduit) ? $leProduit->stock : '0' ?>">
                         </div>
                     </div>
                     
@@ -106,6 +111,7 @@
                 <th>Désignation</th>
                 <th>Prix</th>
                 <th>Catégorie</th>
+                <th>Stock</th>
                 <th class="text-center">Actions</th>
             </tr>
         </thead>
@@ -116,6 +122,11 @@
                 <td><?= $unProduit->description ?></td>
                 <td><?= number_format($unProduit->prix, 2) ?> €</td>
                 <td><span class="badge bg-secondary"><?= $unProduit->idCategorie ?></span></td>
+                <td>
+                    <span class="badge <?= (isset($unProduit->stock) && $unProduit->stock <= 5) ? 'bg-danger' : 'bg-success' ?>">
+                        <?= isset($unProduit->stock) ? $unProduit->stock : '0' ?>
+                    </span>
+                </td>
                 <td class="text-center">
                     <a href="index.php?uc=administrer&action=modifierProduit&produit=<?= $unProduit->id ?>" class="btn btn-sm btn-warning" title="Modifier">
                         <i class="bi bi-pencil"></i> Modifier 📝

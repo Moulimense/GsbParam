@@ -27,7 +27,8 @@ class ControleurAdmin
 
         if ($admin) {
             $_SESSION['admin'] = $admin->nom;
-            $this->listeProduits();
+            header("Location: index.php?uc=administrer&action=listeProduits");
+            exit();
         } else {
             $msgErreurs[] = "Identifiants incorrects";
             if (file_exists("vues/v_erreurs.php"))
@@ -65,8 +66,10 @@ class ControleurAdmin
             $image = $_POST['image'];
 
             $cat = $_POST['idCategorie'];
+            $stock = isset($_POST['stock']) ? max(0, (int)$_POST['stock']) : 0;
 
-            $this->modeleBack->ajouterProduit($nom, $desc, $prix, $image, $cat);
+            $this->modeleBack->ajouterProduit($nom, $desc, $prix, $image, $cat, $stock);
+            $_SESSION['message_succes'] = "Le produit a été ajouté avec succès.";
             $this->listeProduits();
         } else {
             $lesProduits = $this->modeleFront->getTousLesProduits();
@@ -91,8 +94,10 @@ class ControleurAdmin
             $image = $_POST['image'];
 
             $cat = $_POST['idCategorie'];
+            $stock = isset($_POST['stock']) ? max(0, (int)$_POST['stock']) : 0;
 
-            $this->modeleBack->modifierProduit($id, $nom, $desc, $prix, $image, $cat);
+            $this->modeleBack->modifierProduit($id, $nom, $desc, $prix, $image, $cat, $stock);
+            $_SESSION['message_succes'] = "Le produit a été modifié avec succès.";
             $this->listeProduits();
         } else {
             $id = $_REQUEST['produit'];
@@ -418,13 +423,16 @@ class ControleurAdmin
             $data[] = [
                 'description' => $art->description,
                 'prix' => number_format($art->prix, 2, '.', ''),
-                'marque' => $art->marque,
+                'marque' => $art->marque ?: 'Non spécifiée',
                 'categorie' => $art->idCategorie,
                 'quantite' => $art->quantite,
                 'sousTotal' => number_format($sousTotal, 2, '.', '')
             ];
         }
 
+        while (ob_get_level() > 0) {
+            ob_end_clean();
+        }
         header('Content-Type: application/json');
         echo json_encode(['articles' => $data, 'total' => number_format($total, 2, '.', '')]);
         exit();

@@ -28,7 +28,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php 
+                        <?php
                         $etats = ['En attente', 'En préparation', 'Expédiée', 'Livrée', 'Annulée'];
                         $etatBadge = [
                             'En attente' => 'bg-secondary',
@@ -37,44 +37,48 @@
                             'Livrée' => 'bg-success',
                             'Annulée' => 'bg-danger'
                         ];
-                        foreach ($lesCommandes as $cmd): 
+                        foreach ($lesCommandes as $cmd):
                             $etatActuel = $cmd->etat ?? 'En attente';
                             $badgeClass = $etatBadge[$etatActuel] ?? 'bg-secondary';
-                        ?>
-                        <tr>
-                            <td class="ps-4 fw-bold">#<?= htmlspecialchars($cmd->id) ?></td>
-                            <td><?= htmlspecialchars($cmd->dateCommande) ?></td>
-                            <td><?= htmlspecialchars($cmd->nomPrenomClient) ?></td>
-                            <td><?= htmlspecialchars($cmd->cpClient) ?> <?= htmlspecialchars($cmd->villeClient) ?></td>
-                            <td><small><?= htmlspecialchars($cmd->mailClient) ?></small></td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-outline-info btn-articles" 
-                                        data-id="<?= htmlspecialchars($cmd->id) ?>"
-                                        data-bs-toggle="modal" data-bs-target="#modalArticles">
-                                    <i class="bi bi-list-ul"></i> Liste des articles
-                                </button>
-                            </td>
-                            <td class="text-center">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm <?= $badgeClass ?> dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <?= htmlspecialchars($etatActuel) ?>
+                            ?>
+                            <tr>
+                                <td class="ps-4 fw-bold">#<?= htmlspecialchars($cmd->id) ?></td>
+                                <td><?= htmlspecialchars($cmd->dateCommande) ?></td>
+                                <td><?= htmlspecialchars($cmd->nomPrenomClient) ?></td>
+                                <td><?= htmlspecialchars($cmd->cpClient) ?>         <?= htmlspecialchars($cmd->villeClient) ?></td>
+                                <td><small><?= htmlspecialchars($cmd->mailClient) ?></small></td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-outline-info btn-articles"
+                                        data-id="<?= htmlspecialchars($cmd->id) ?>" data-bs-toggle="modal"
+                                        data-bs-target="#modalArticles">
+                                        <i class="bi bi-list-ul"></i> Liste des articles
                                     </button>
-                                    <ul class="dropdown-menu">
-                                        <?php foreach ($etats as $etat): ?>
-                                            <?php if ($etat !== $etatActuel): ?>
-                                            <li>
-                                                <form action="index.php?uc=administrer&action=modifierEtatCommande" method="POST">
-                                                    <input type="hidden" name="idCommande" value="<?= htmlspecialchars($cmd->id) ?>">
-                                                    <input type="hidden" name="etat" value="<?= htmlspecialchars($etat) ?>">
-                                                    <button type="submit" class="dropdown-item"><?= htmlspecialchars($etat) ?></button>
-                                                </form>
-                                            </li>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm <?= $badgeClass ?> dropdown-toggle"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <?= htmlspecialchars($etatActuel) ?>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <?php foreach ($etats as $etat): ?>
+                                                <?php if ($etat !== $etatActuel): ?>
+                                                    <li>
+                                                        <form action="index.php?uc=administrer&action=modifierEtatCommande"
+                                                            method="POST">
+                                                            <input type="hidden" name="idCommande"
+                                                                value="<?= htmlspecialchars($cmd->id) ?>">
+                                                            <input type="hidden" name="etat" value="<?= htmlspecialchars($etat) ?>">
+                                                            <button type="submit"
+                                                                class="dropdown-item"><?= htmlspecialchars($etat) ?></button>
+                                                        </form>
+                                                    </li>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -121,32 +125,32 @@
 </div>
 
 <script>
-document.querySelectorAll('.btn-articles').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const idCmd = this.dataset.id;
-        document.getElementById('modalCmdId').textContent = '#' + idCmd;
-        document.getElementById('articlesLoading').classList.remove('d-none');
-        document.getElementById('tableArticles').classList.add('d-none');
-        
-        fetch('index.php?uc=administrer&action=articlesCommande&idCommande=' + idCmd)
-            .then(r => r.json())
-            .then(data => {
-                const tbody = document.getElementById('articlesBody');
-                tbody.innerHTML = '';
-                data.articles.forEach(art => {
-                    tbody.innerHTML += '<tr>' +
-                        '<td>' + art.description + '</td>' +
-                        '<td>' + art.marque + '</td>' +
-                        '<td><span class="badge bg-secondary">' + art.categorie + '</span></td>' +
-                        '<td class="text-end">' + art.prix + ' €</td>' +
-                        '<td class="text-center">' + art.quantite + '</td>' +
-                        '<td class="text-end">' + art.sousTotal + ' €</td>' +
-                        '</tr>';
+    document.querySelectorAll('.btn-articles').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const idCmd = this.dataset.id;
+            document.getElementById('modalCmdId').textContent = '#' + idCmd;
+            document.getElementById('articlesLoading').classList.remove('d-none');
+            document.getElementById('tableArticles').classList.add('d-none');
+
+            fetch('index.php?uc=administrer&action=articlesCommande&idCommande=' + idCmd)
+                .then(r => r.json())
+                .then(data => {
+                    const tbody = document.getElementById('articlesBody');
+                    tbody.innerHTML = '';
+                    data.articles.forEach(art => {
+                        tbody.innerHTML += '<tr>' +
+                            '<td>' + art.description + '</td>' +
+                            '<td>' + art.marque + '</td>' +
+                            '<td><span class="badge bg-secondary">' + art.categorie + '</span></td>' +
+                            '<td class="text-end">' + art.prix + ' €</td>' +
+                            '<td class="text-center">' + art.quantite + '</td>' +
+                            '<td class="text-end">' + art.sousTotal + ' €</td>' +
+                            '</tr>';
+                    });
+                    document.getElementById('totalCommande').textContent = data.total + ' €';
+                    document.getElementById('articlesLoading').classList.add('d-none');
+                    document.getElementById('tableArticles').classList.remove('d-none');
                 });
-                document.getElementById('totalCommande').textContent = data.total + ' €';
-                document.getElementById('articlesLoading').classList.add('d-none');
-                document.getElementById('tableArticles').classList.remove('d-none');
-            });
+        });
     });
-});
 </script>

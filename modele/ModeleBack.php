@@ -38,17 +38,17 @@ class ModeleBack extends Modele {
     /**
      * Ajoute un nouveau produit dans la base
      */
-    public function ajouterProduit($nom, $description, $prix, $image, $idCategorie) {
-        $req = "INSERT INTO produit (id, description, prix, image, idCategorie) VALUES (?, ?, ?, ?, ?)";
-        $this->executerRequete($req, array($nom, $description, $prix, $image, $idCategorie));
+    public function ajouterProduit($nom, $description, $prix, $image, $idCategorie, $stock = 0) {
+        $req = "INSERT INTO produit (id, description, prix, image, idCategorie, stock) VALUES (?, ?, ?, ?, ?, ?)";
+        $this->executerRequete($req, array($nom, $description, $prix, $image, $idCategorie, (int)$stock));
     }
 
     /**
      * Modifie un produit existant
      */
-    public function modifierProduit($id, $nom, $description, $prix, $image, $idCategorie) {
-        $req = "UPDATE produit SET description = ?, prix = ?, image = ?, idCategorie = ? WHERE id = ?";
-        $this->executerRequete($req, array($description, $prix, $image, $idCategorie, $id));
+    public function modifierProduit($id, $nom, $description, $prix, $image, $idCategorie, $stock = 0) {
+        $req = "UPDATE produit SET description = ?, prix = ?, image = ?, idCategorie = ?, stock = ? WHERE id = ?";
+        $this->executerRequete($req, array($description, $prix, $image, $idCategorie, (int)$stock, $id));
     }
 
     /**

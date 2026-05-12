@@ -202,7 +202,7 @@ class ModeleFront extends Modele
 
 	public function getTousLesProduits()
 	{
-		$req = "SELECT id, description, prix, image, idCategorie FROM produit";
+		$req = "SELECT id, description, prix, image, idCategorie, stock FROM produit";
 		$res = $this->executerRequete($req);
 		return $res->fetchAll(PDO::FETCH_OBJ);
 	}
