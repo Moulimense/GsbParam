@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `administrateur` (
   `nom` varchar(50) NOT NULL,
   `mdp` char(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `administrateur`
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `avis` (
   PRIMARY KEY (`id`),
   KEY `fk_avis_produit` (`idProduit`),
   KEY `fk_avis_client` (`idClient`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `avis`
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `categorie` (
   `id` char(3) NOT NULL,
   `libelle` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `categorie`
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   `mdp` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `mail` (`mail`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `client`
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `commande` (
   `idClient` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_commande_client` (`idClient`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `commande`
@@ -174,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `contenir` (
   PRIMARY KEY (`idCommande`,`idProduit`),
   KEY `I_FK_CONTENIR_COMMANDE` (`idCommande`),
   KEY `I_FK_CONTENIR_Produit` (`idProduit`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `contenir`
@@ -211,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `produit` (
   `noteClient` float DEFAULT 4,
   PRIMARY KEY (`id`),
   KEY `I_FK_Produit_CATEGORIE` (`idCategorie`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `produit`

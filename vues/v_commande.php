@@ -1,4 +1,4 @@
-﻿<div id="creationCommande">
+<div id="creationCommande">
 <div class="contenuCentre">
 <form method="POST" action="index.php?uc=gererPanier&action=confirmerCommande" id="formC">
 <div class="mb-3 row">

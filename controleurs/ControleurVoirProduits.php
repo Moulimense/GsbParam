@@ -35,6 +35,13 @@ class ControleurVoirProduits
         $prixMax = !empty($_REQUEST['prixMax']) ? $_REQUEST['prixMax'] : null;
         $marque = !empty($_REQUEST['marque']) ? $_REQUEST['marque'] : null;
 
+        // Récupération du message de succès s'il existe
+        $messageSucces = null;
+        if (isset($_SESSION['message_succes'])) {
+            $messageSucces = $_SESSION['message_succes'];
+            unset($_SESSION['message_succes']);
+        }
+
         // Préparation des données pour la vue
         $lesCategories = $this->modeleFront->getLesCategories();
         $lesMarques = $this->modeleFront->getLesMarques();

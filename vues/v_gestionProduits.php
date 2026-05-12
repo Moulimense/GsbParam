@@ -37,9 +37,9 @@
                     </div>
                     
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Catégorie existante</label>
-                            <select class="form-select" name="idCategorie">
+                        <div class="col-md-12 mb-3">
+                            <label class="form-label fw-bold">Catégorie</label>
+                            <select class="form-select" name="idCategorie" required>
                                 <option value="">-- Sélectionner une catégorie --</option>
                                 <?php if (isset($lesCategories)) {
                                     foreach ($lesCategories as $uneCategorie) {
@@ -48,18 +48,6 @@
                                     }
                                 } ?>
                             </select>
-                        </div>
-                        <div class="col-md-6 mb-3 border-start">
-                            <label class="form-label fw-bold text-success">Ou créer une nouvelle (facultatif)</label>
-                            <div class="row">
-                                <div class="col-4">
-                                    <input type="text" class="form-control form-control-sm" name="nouvelleCatId" placeholder="ID (ex: BEO)" maxlength="3">
-                                </div>
-                                <div class="col-8">
-                                    <input type="text" class="form-control form-control-sm" name="nouvelleCatLibelle" placeholder="Libellé (ex: Beauté)">
-                                </div>
-                            </div>
-                            <small class="text-muted">L'ID est un code de 3 lettres maxi.</small>
                         </div>
                     </div>
                     
@@ -92,7 +80,20 @@
         </div>
     <?php endif; ?>
 
+    <?php if (isset($messageSucces) && $messageSucces): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill"></i> <?= htmlspecialchars($messageSucces) ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
     <div class="mb-3 text-end">
+        <a href="index.php?uc=administrer&action=supprimerCategories" class="btn btn-outline-danger me-2">
+            <i class="bi bi-trash"></i> Supprimer des catégories
+        </a>
+        <a href="index.php?uc=administrer&action=ajouterNouvelleCategorie" class="btn btn-info me-2 text-white">
+            <i class="bi bi-tags"></i> Ajouter une catégorie
+        </a>
         <a href="index.php?uc=administrer&action=ajouterProduit" class="btn btn-success">
             <i class="bi bi-plus-circle"></i> Ajouter un nouveau produit
         </a>

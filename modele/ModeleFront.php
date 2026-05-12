@@ -207,6 +207,34 @@ class ModeleFront extends Modele
 		return $res->fetchAll(PDO::FETCH_OBJ);
 	}
 
+	/**
+	 * Retourne tous les produits avec leur stock
+	 */
+	public function getTousLesProduitsAvecStock()
+	{
+		try {
+			$req = "SELECT id, description, prix, image, idCategorie, stock FROM produit ORDER BY description";
+			$res = $this->executerRequete($req);
+			return $res->fetchAll(PDO::FETCH_OBJ);
+		} catch (PDOException $e) {
+			return array();
+		}
+	}
+
+	/**
+	 * Retourne les produits dont le stock est critique (≤ seuil)
+	 */
+	public function getProduitsStockCritique($seuil = 5)
+	{
+		try {
+			$req = "SELECT id, description, prix, image, idCategorie, stock FROM produit WHERE stock <= ? ORDER BY stock ASC";
+			$res = $this->executerRequete($req, array($seuil));
+			return $res->fetchAll(PDO::FETCH_OBJ);
+		} catch (PDOException $e) {
+			return array();
+		}
+	}
+
 	public function inscrireClient($nom, $prenom, $rue, $cp, $ville, $mail, $mdp)
 	{
 		$mdpHash = password_hash($mdp, PASSWORD_BCRYPT);
