@@ -20,6 +20,12 @@ class ControleurAccueil{
 	 * affiche la page d'accueil
 	*/
     public function accueil(){
-        include("vues/v_accueil.html");
+        // Nettoyage quotidien (simulé à chaque chargement de l'accueil)
+        $this->produit->nettoyerPromotionsExpirees();
+        
+        // Récupération des produits mis en avant
+        $produitsEnPromotion = $this->produit->getProduitsEnPromotion();
+        
+        include("vues/v_accueil.php");
     }
 }

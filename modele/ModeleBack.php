@@ -214,5 +214,52 @@ class ModeleBack extends Modele {
         $req = "UPDATE commande SET etat = ? WHERE id = ?";
         $this->executerRequete($req, array($etat, $idCommande));
     }
+
+    /**
+     * Retourne toutes les promotions programmées
+     */
+    public function getLesPromotions() {
+        $req = "SELECT pr.id, pr.idProduit, pr.dateDebut, pr.dateFin, p.description, p.image 
+                FROM promotion pr
+                JOIN produit p ON pr.idProduit = p.id
+                ORDER BY pr.dateDebut DESC";
+        $res = $this->executerRequete($req);
+        return $res->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    /**
+     * Vérifie si une promotion (chevauchement) existe déjà pour ce produit
+     */
+    public function promotionExiste($idProduit, $dateDebut, $dateFin) {
+        // Il y a chevauchement si (dateDebutExistante <= dateFinNouvelle) ET (dateFinExistante >= dateDebutNouvelle)
+        $req = "SELECT COUNT(*) as nb FROM promotion WHERE idProduit = ? AND dateDebut <= ? AND dateFin >= ?";
+        $res = $this->executerRequete($req, array($idProduit, $dateFin, $dateDebut));
+        $ligne = $res->fetch();
+        return $ligne['nb'] > 0;
+    }
+
+    /**
+     * Ajoute une nouvelle promotion
+     */
+    public function ajouterPromotion($idProduit, $dateDebut, $dateFin) {
+        $req = "INSERT INTO promotion (idProduit, dateDebut, dateFin) VALUES (?, ?, ?)";
+        $this->executerRequete($req, array($idProduit, $dateDebut, $dateFin));
+    }
+
+    /**
+     * Supprime une promotion
+     */
+    public function supprimerPromotion($id) {
+        $req = "DELETE FROM promotion WHERE id = ?";
+        $this->executerRequete($req, array($id));
+    }
+
+    /**
+     * Nettoie les promotions dont la date de fin est dépassée
+     */
+    public function nettoyerPromotionsExpirees() {
+        $req = "DELETE FROM promotion WHERE dateFin < CURDATE()";
+        $this->executerRequete($req);
+    }
 }
 ?>

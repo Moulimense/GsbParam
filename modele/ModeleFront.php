@@ -349,5 +349,35 @@ class ModeleFront extends Modele
 			return false;
 		}
 	}
+
+	/**
+	 * Nettoie les promotions dont la date de fin est dépassée
+	 */
+	public function nettoyerPromotionsExpirees() {
+		try {
+			$req = "DELETE FROM promotion WHERE dateFin < CURDATE()";
+			$this->executerRequete($req);
+			return true;
+		} catch (PDOException $e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Retourne les produits actuellement en promotion
+	 */
+	public function getProduitsEnPromotion() {
+		try {
+			$req = "SELECT p.id, p.description, p.prix, p.image, p.idCategorie, p.marque, pr.dateFin
+					FROM produit p
+					JOIN promotion pr ON p.id = pr.idProduit
+					WHERE CURDATE() BETWEEN pr.dateDebut AND pr.dateFin
+					ORDER BY pr.dateDebut DESC";
+			$res = $this->executerRequete($req);
+			return $res->fetchAll(PDO::FETCH_OBJ);
+		} catch (PDOException $e) {
+			return array();
+		}
+	}
 }
 ?>

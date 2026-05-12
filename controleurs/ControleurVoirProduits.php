@@ -42,6 +42,10 @@ class ControleurVoirProduits
             unset($_SESSION['message_succes']);
         }
 
+        // Nettoyage et récupération des produits mis en avant
+        $this->modeleFront->nettoyerPromotionsExpirees();
+        $produitsEnPromotion = $this->modeleFront->getProduitsEnPromotion();
+
         // Préparation des données pour la vue
         $lesCategories = $this->modeleFront->getLesCategories();
         $lesMarques = $this->modeleFront->getLesMarques();

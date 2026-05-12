@@ -269,6 +269,29 @@ ALTER TABLE `contenir`
 --
 ALTER TABLE `produit`
   ADD CONSTRAINT `produit_ibfk_1` FOREIGN KEY (`idCategorie`) REFERENCES `categorie` (`id`);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `promotion`
+--
+
+DROP TABLE IF EXISTS `promotion`;
+CREATE TABLE IF NOT EXISTS `promotion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idProduit` varchar(5) NOT NULL,
+  `dateDebut` date NOT NULL,
+  `dateFin` date NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_promotion_produit` (`idProduit`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Contraintes pour la table `promotion`
+--
+ALTER TABLE `promotion`
+  ADD CONSTRAINT `fk_promotion_produit` FOREIGN KEY (`idProduit`) REFERENCES `produit` (`id`) ON DELETE CASCADE;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
