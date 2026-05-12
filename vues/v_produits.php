@@ -28,7 +28,7 @@ if (isset($messageSucces) && $messageSucces): ?>
                         </p>
                         <div class="mt-auto d-flex justify-content-between align-items-center">
                             <span class="fs-5 fw-bold text-primary"><?= number_format($unProduit->prix, 2, ',', ' ') ?> €</span>
-                            <a href="index.php?uc=voirProduits&action=voirDetails&produit=<?= $unProduit->id ?>" class="btn btn-outline-primary btn-sm">En savoir plus</a>
+                            <a href="index.php?uc=voirProduits&action=voirDetails&produit=<?= $unProduit->id ?>" target="_blank" class="btn btn-outline-primary btn-sm">En savoir plus</a>
                         </div>
                     </div>
                 </div>
@@ -56,7 +56,7 @@ foreach( $lesProduits as $unProduit)
 			<div class="prixCard"><?= $prix."€" ?></div>
 			</div>
 			<div class="imgCard">
-				<a href="index.php?uc=voirProduits&action=voirDetails&produit=<?= $id ?>" class="btn btn-outline-info btn-sm m-1">En savoir plus</a>
+				<a href="index.php?uc=voirProduits&action=voirDetails&produit=<?= $id ?>" target="_blank" class="btn btn-outline-info btn-sm m-1">En savoir plus</a>
 				<?php if (isset($_SESSION['idClient'])): ?>
 				<a href="index.php?uc=gererPanier&produit=<?= $id ?>&action=ajouterAuPanier"> 
 				<img src="assets/images/mettrepanier.png" title="Ajouter au panier" alt="Mettre au panier"> </a>
